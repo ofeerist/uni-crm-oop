@@ -1,0 +1,28 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam roundcorner 10
+skinparam monochrome false
+
+left to right direction
+
+actor "Manager" as M
+actor "Student" as S
+actor "Teacher" as T
+
+rectangle "Academic Subsystem" {
+    
+    usecase "Register for Course" as Register
+    usecase "Check Prerequisites/Credits" as CheckCredits
+    
+    usecase "Transcript" as Transcript
+
+    M --> Register : <<Open Course Registration>>
+
+    S --> Register
+    Register ..> CheckCredits : <<include>>
+    
+    
+    T --> Transcript : <<Put Mark>>
+    S --> Transcript : <<View Transcript>>
+}
+@enduml
