@@ -4,41 +4,43 @@ skinparam roundcorner 10
 skinparam nodesep 50
 skinparam ranksep 50
 
-enum TeacherType { 
-    TUTOR, LECTOR, 
-    SENIOR_LECTOR, 
-    PROFESSOR 
-}
-enum ManagerType { 
-    OR, 
-    DEPARTMENT_HEAD, 
-    DEAN 
-}
-enum CourseType { 
-    MAJOR, 
-    MINOR, 
-    FREE_ELECTIVE 
-}
-enum LessonType { 
-    LECTURE, 
-    PRACTICE 
-}
-enum MarkType { 
-    FIRST_ATTESTATION, 
-    SECOND_ATTESTATION, 
-    FINAL_EXAM 
-}
-enum RequestStatus { 
-    NEW, 
-    VIEWED, 
-    ACCEPTED, 
-    REJECTED, 
-    DONE 
-}
-enum Urgency { 
-    LOW, 
-    MEDIUM, 
-    HIGH 
+rectangle "Enums" {
+    enum TeacherType { 
+        TUTOR, LECTOR, 
+        SENIOR_LECTOR, 
+        PROFESSOR 
+    }
+    enum ManagerType { 
+        OR, 
+        DEPARTMENT_HEAD, 
+        DEAN 
+    }
+    enum CourseType { 
+        MAJOR, 
+        MINOR, 
+        FREE_ELECTIVE 
+    }
+    enum LessonType { 
+        LECTURE, 
+        PRACTICE 
+    }
+    enum MarkType { 
+        FIRST_ATTESTATION, 
+        SECOND_ATTESTATION, 
+        FINAL_EXAM 
+    }
+    enum RequestStatus { 
+        NEW, 
+        VIEWED, 
+        ACCEPTED, 
+        REJECTED, 
+        DONE 
+    }
+    enum Urgency { 
+        LOW, 
+        MEDIUM, 
+        HIGH 
+    }
 }
 
 abstract class User {
@@ -54,22 +56,6 @@ abstract class User {
     + viewNews(): void
 }
 
-class Student {
-    - studentId: int
-    - yearOfStudy: int
-    - gpa: double
-    - credits: int
-    + registerForCourse(c: Course): void
-    + viewCourses(): void
-    + viewMarks(): void
-    + viewTranscript(): void
-}
-
-class GraduateStudent {
-    - supervisor: Researcher
-    - diplomaProjects: List<ResearchPaper>
-}
-
 abstract class Employee {
     - employeeId: int
     - position: String
@@ -79,33 +65,88 @@ abstract class Employee {
     + viewMessages(): void
 }
 
-class Teacher {
-    - teacherId: int
-    - teacherType: TeacherType
-    + addCourse(c: Course): void
-    + removeCourse(c: Course): void
-    + addLesson(l: Lesson): void
+rectangle "Academic Block" {
+
+    class Student {
+    - studentId: int
+    - yearOfStudy: int
+    - gpa: double
+    - credits: int
+    + registerForCourse(c: Course): void
     + viewCourses(): void
-    + viewStudents(): void
-    + assignMark(s: Student, c: Course, m: Mark): void
-    + sendComplaint(s: Student, u: Urgency): void
+    + viewMarks(): void
+    + viewTranscript(): void
+    }
+
+    class GraduateStudent {
+        - supervisor: Researcher
+        - diplomaProjects: List<ResearchPaper>
+    }
+
+    class Teacher {
+        - teacherId: int
+        - teacherType: TeacherType
+        + addCourse(c: Course): void
+        + removeCourse(c: Course): void
+        + addLesson(l: Lesson): void
+        + viewCourses(): void
+        + viewStudents(): void
+        + assignMark(s: Student, c: Course, m: Mark): void
+        + sendComplaint(s: Student, u: Urgency): void
+    }
+
+    class Manager {
+        - managerId: int
+        - managerType: ManagerType
+        + assignCourseToTeacher(c: Course, t: Teacher): void
+        + approveRegistration(s: Student, c: Course): void
+        + createReport(): void
+        + manageNews(): void
+    }
+
+    class Course {
+        - courseId: int
+        - name: String
+        - credits: int
+        - courseType: CourseType
+        + addStudent(s: Student): void
+        + removeStudent(s: Student): void
+        + assignTeacher(t: Teacher): void
+        + viewCourseInfo(): void
+    }
+
+    class Lesson {
+        - lessonId: int
+        - lessonType: LessonType
+        - date: Date
+        - topic: String
+        + assignStudent(s: Student): void
+        + viewStudents(): void
+    }
+
+    class Mark {
+        - value: double
+        - markType: MarkType
+        + calculateTotal(): double
+    }
+
 }
 
-class Manager {
-    - managerId: int
-    - managerType: ManagerType
-    + assignCourseToTeacher(c: Course, t: Teacher): void
-    + approveRegistration(s: Student, c: Course): void
-    + createReport(): void
-    + manageNews(): void
-}
+rectangle "Tech Support" {
 
-class TechSupporter {
-    - supportId: int
-    + viewRequests(): void
-    + acceptRequest(r: TechRequest): void
-    + rejectRequest(r: TechRequest): void
-    + completeRequest(r: TechRequest): void
+    class TechSupporter {
+        - supportId: int
+        + viewRequests(): void
+        + acceptRequest(r: TechRequest): void
+        + rejectRequest(r: TechRequest): void
+        + completeRequest(r: TechRequest): void
+    }
+
+    class TechRequest {
+        - description: String
+        - status: RequestStatus
+    }
+
 }
 
 class Admin {
@@ -116,44 +157,10 @@ class Admin {
     + viewLogs(): void
 }
 
-' --- RESEARCHER DECORATOR ---
+
 abstract class UserDecorator {
     # decoratedUser: User
     + UserDecorator(u: User)
-}
-
-class Researcher {
-    - papers: List<ResearchPaper>
-    - projects: List<ResearchProject>
-    + calculateHIndex(): int
-    + printPapers(c: Comparator): void
-    + joinProject(p: ResearchProject): void
-}
-
-class Course {
-    - courseId: int
-    - name: String
-    - credits: int
-    - courseType: CourseType
-    + addStudent(s: Student): void
-    + removeStudent(s: Student): void
-    + assignTeacher(t: Teacher): void
-    + viewCourseInfo(): void
-}
-
-class Lesson {
-    - lessonId: int
-    - lessonType: LessonType
-    - date: Date
-    - topic: String
-    + assignStudent(s: Student): void
-    + viewStudents(): void
-}
-
-class Mark {
-    - value: double
-    - markType: MarkType
-    + calculateTotal(): double
 }
 
 class Message {
@@ -162,23 +169,30 @@ class Message {
     - date: Date
 }
 
-class TechRequest {
-    - description: String
-    - status: RequestStatus
-}
+rectangle "Research" {
 
-class ResearchPaper {
-    - title: String
-    - citations: int
-    - pages: int
-    - doi: String
-    - datePublished: Date
-    + getCitation(format: String): String
-}
+    class Researcher {
+        - papers: List<ResearchPaper>
+        - projects: List<ResearchProject>
+        + calculateHIndex(): int
+        + printPapers(c: Comparator): void
+        + joinProject(p: ResearchProject): void
+    }
 
-class ResearchProject {
-    - topic: String
-    + addParticipant(r: Researcher): void
+    class ResearchPaper {
+        - title: String
+        - citations: int
+        - pages: int
+        - doi: String
+        - datePublished: Date
+        + getCitation(format: String): String
+    }
+
+    class ResearchProject {
+        - topic: String
+        + addParticipant(r: Researcher): void
+    }
+
 }
 
 User <|-- Student
