@@ -62,7 +62,7 @@ rectangle "University Management System" {
     M -- Requests : <<View Requests>>
 
     S -- Register : <<Register>>
-    Register ..> CheckCredits : <<include>>
+    Register <.. CheckCredits : <<include>>
     S -- Transcript : <<View Transcript>>
     S -- Transcript : <<View Marks>>
     S -- Info : <<View Teacher Info>>
