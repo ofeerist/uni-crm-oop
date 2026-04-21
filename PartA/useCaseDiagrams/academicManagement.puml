@@ -30,22 +30,22 @@ rectangle "Academic Subsystem" {
     usecase "Teacher / Student Info" as Info
     usecase "Reports" as Reports
 
-    M --> Register : <<Open Course Registration>>
-    M --> Register : <<Approve Registration>>
-    M --> CoursePool : <<Add Course for Registration>>
-    M --> CourseMgmt : <<Assign Course to Teacher>>
-    M --> Reports : <<Create Report>>
-    M --> Info : <<View Student Info>>
-    M --> Info : <<View Teacher Info>>
+    M -- Register : <<Open Course Registration>>
+    M -- Register : <<Approve Registration>>
+    M -- CoursePool : <<Add Course for Registration>>
+    M -- CourseMgmt : <<Assign Course to Teacher>>
+    M -- Reports : <<Create Report>>
+    M -- Info : <<View Student Info>>
+    M -- Info : <<View Teacher Info>>
 
-    S --> Register : <<Register>>
-    Register ..> CheckCredits : <<include>>
-    S --> Transcript : <<View Transcript>>
-    S --> Transcript : <<View Marks>>
-    S --> Info : <<View Teacher Info>>
+    S -- Register : <<Register>>
+    Register <.. CheckCredits : <<include>>
+    S -- Transcript : <<View Transcript>>
+    S -- Transcript : <<View Marks>>
+    S -- Info : <<View Teacher Info>>
 
-    T --> Transcript : <<Put Mark>>
-    T --> CourseMgmt : <<Manage Course>>
-    T --> Info : <<View Students>>
+    T -- Transcript : <<Put Mark>>
+    T -- CourseMgmt : <<Manage Course>>
+    T -- Info : <<View Students>>
 }
 @enduml

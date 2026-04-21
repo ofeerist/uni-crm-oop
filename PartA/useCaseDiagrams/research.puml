@@ -25,11 +25,11 @@ rectangle "Research Subsystem" {
     usecase "H-Index" as HIndex
     usecase "Journals" as Journals
 
-    R --> ResearchProjects : <<Create Research Project>>
-    R --> ResearchProjects : <<Join Research Project>>
-    R --> ResearchPapers : <<Create Research Paper>>
-    R --> ResearchPapers : <<Print Papers>>
-    R --> HIndex : <<Calculate H-Index>>
-    R --> Journals : <<Subscribe to Journal>>
+    R -- ResearchProjects : <<Create Research Project>>
+    R -- ResearchProjects : <<Join Research Project>>
+    R -- ResearchPapers : <<Create Research Paper>>
+    R -- ResearchPapers : <<Print Papers>>
+    R -- HIndex : <<Calculate H-Index>>
+    R -- Journals : <<Subscribe to Journal>>
 }
 @enduml

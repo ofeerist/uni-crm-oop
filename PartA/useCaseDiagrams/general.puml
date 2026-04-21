@@ -25,12 +25,12 @@ rectangle "Communication Subsystem" {
     usecase "Messages" as Messages
     usecase "News" as News
 
-    U --> News : <<View News>>
-    U --> Messages : <<Send Message>>
-    U --> Messages : <<View Messages>>
+    U -- News : <<View News>>
+    U -- Messages : <<Send Message>>
+    U -- Messages : <<View Messages>>
 
-    M --> News : <<Manage News>>
+    M -- News : <<Manage News>>
 
-    T --> Messages : <<Send Message>>
+    T -- Messages : <<Send Message>>
 }
 @enduml

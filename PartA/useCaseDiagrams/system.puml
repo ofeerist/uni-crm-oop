@@ -26,15 +26,15 @@ rectangle "Admin & Support Subsystem" {
     usecase "Logs" as Logs
     usecase "Requests" as Requests
 
-    A --> UserMgmt : <<Add User>>
-    A --> UserMgmt : <<Update User>>
-    A --> UserMgmt : <<Remove User>>
-    A --> Logs : <<View Logs>>
+    A -- UserMgmt : <<Add User>>
+    A -- UserMgmt : <<Update User>>
+    A -- UserMgmt : <<Remove User>>
+    A -- Logs : <<View Logs>>
 
-    TS --> Requests : <<Accept Request>>
-    TS --> Requests : <<Reject Request>>
-    TS --> Requests : <<Mark Request as Done>>
+    TS -- Requests : <<Accept Request>>
+    TS -- Requests : <<Reject Request>>
+    TS -- Requests : <<Mark Request as Done>>
     
-    M --> Requests : <<View Requests>>
+    M -- Requests : <<View Requests>>
 }
 @enduml

@@ -47,46 +47,46 @@ rectangle "University Management System" {
     usecase "Requests" as Requests
     usecase "Reports" as Reports
 
-    U --> News : <<View News>>
-    U --> Messages : <<Send Message>>
-    U --> Messages : <<View Messages>>
+    U -- News : <<View News>>
+    U -- Messages : <<Send Message>>
+    U -- Messages : <<View Messages>>
 
-    M --> Register : <<Open Course Registration>>
-    M --> Register : <<Approve Registration>>
-    M --> CoursePool : <<Add Course for Registration>>
-    M --> CourseMgmt : <<Assign Course to Teacher>>
-    M --> Reports : <<Create Report>>
-    M --> Info : <<View Student Info>>
-    M --> Info : <<View Teacher Info>>
-    M --> News : <<Manage News>>
-    M --> Requests : <<View Requests>>
+    M -- Register : <<Open Course Registration>>
+    M -- Register : <<Approve Registration>>
+    M -- CoursePool : <<Add Course for Registration>>
+    M -- CourseMgmt : <<Assign Course to Teacher>>
+    M -- Reports : <<Create Report>>
+    M -- Info : <<View Student Info>>
+    M -- Info : <<View Teacher Info>>
+    M -- News : <<Manage News>>
+    M -- Requests : <<View Requests>>
 
-    S --> Register : <<Register>>
+    S -- Register : <<Register>>
     Register ..> CheckCredits : <<include>>
-    S --> Transcript : <<View Transcript>>
-    S --> Transcript : <<View Marks>>
-    S --> Info : <<View Teacher Info>>
+    S -- Transcript : <<View Transcript>>
+    S -- Transcript : <<View Marks>>
+    S -- Info : <<View Teacher Info>>
 
-    T --> Transcript : <<Put Mark>>
-    T --> CourseMgmt : <<Manage Course>>
-    T --> Info : <<View Students>>
-    T --> Messages : <<Send Message>>
+    T -- Transcript : <<Put Mark>>
+    T -- CourseMgmt : <<Manage Course>>
+    T -- Info : <<View Students>>
+    T -- Messages : <<Send Message>>
 
-    A --> UserMgmt : <<Add User>>
-    A --> UserMgmt : <<Update User>>
-    A --> UserMgmt : <<Remove User>>
-    A --> Logs : <<View Logs>>
+    A -- UserMgmt : <<Add User>>
+    A -- UserMgmt : <<Update User>>
+    A -- UserMgmt : <<Remove User>>
+    A -- Logs : <<View Logs>>
 
-    TS --> Requests : <<Accept Request>>
-    TS --> Requests : <<Reject Request>>
-    TS --> Requests : <<Mark Request as Done>>
+    TS -- Requests : <<Accept Request>>
+    TS -- Requests : <<Reject Request>>
+    TS -- Requests : <<Mark Request as Done>>
 
-    R --> ResearchProjects : <<Create Research Project>>
-    R --> ResearchProjects : <<Join Research Project>>
-    R --> ResearchPapers : <<Create Research Paper>>
-    R --> ResearchPapers : <<Print Papers>>
-    R --> HIndex : <<Calculate H-Index>>
-    R --> Journals : <<Subscribe to Journal>>
+    R -- ResearchProjects : <<Create Research Project>>
+    R -- ResearchProjects : <<Join Research Project>>
+    R -- ResearchPapers : <<Create Research Paper>>
+    R -- ResearchPapers : <<Print Papers>>
+    R -- HIndex : <<Calculate H-Index>>
+    R -- Journals : <<Subscribe to Journal>>
 }
 
 @enduml
