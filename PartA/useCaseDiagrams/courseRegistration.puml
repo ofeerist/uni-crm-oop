@@ -5,24 +5,72 @@ skinparam monochrome false
 
 left to right direction
 
+actor "User" as U
 actor "Manager" as M
 actor "Student" as S
 actor "Teacher" as T
+actor "Admin" as A
+actor "TechSupporter" as TS
+actor "Researcher" as R
 
-rectangle "Academic Subsystem" {
-    
+rectangle "University Management System" {
+
     usecase "Register for Course" as Register
     usecase "Check Prerequisites/Credits" as CheckCredits
-    
     usecase "Transcript" as Transcript
+    usecase "Course Management" as CourseMgmt
+    usecase "Course Pool" as CoursePool
+    usecase "Teacher / Student Info" as Info
+    usecase "Messages" as Messages
+    usecase "News" as News
+    usecase "Research Projects" as ResearchProjects
+    usecase "Research Papers" as ResearchPapers
+    usecase "H-Index" as HIndex
+    usecase "Journals" as Journals
+    usecase "User Management" as UserMgmt
+    usecase "Logs" as Logs
+    usecase "Requests" as Requests
+    usecase "Reports" as Reports
+
+    U --> News : <<View News>>
+    U --> Messages : <<Send Message>>
+    U --> Messages : <<View Messages>>
 
     M --> Register : <<Open Course Registration>>
+    M --> Register : <<Approve Registration>>
+    M --> CoursePool : <<Add Course for Registration>>
+    M --> CourseMgmt : <<Assign Course to Teacher>>
+    M --> Reports : <<Create Report>>
+    M --> Info : <<View Student Info>>
+    M --> Info : <<View Teacher Info>>
+    M --> News : <<Manage News>>
+    M --> Requests : <<View Requests>>
 
-    S --> Register : <<Register for course>>
+    S --> Register : <<Register>>
     Register ..> CheckCredits : <<include>>
-    
-    
-    T --> Transcript : <<Put Mark>>
     S --> Transcript : <<View Transcript>>
+    S --> Transcript : <<View Marks>>
+    S --> Info : <<View Teacher Info>>
+
+    T --> Transcript : <<Put Mark>>
+    T --> CourseMgmt : <<Manage Course>>
+    T --> Info : <<View Students>>
+    T --> Messages : <<Send Message>>
+
+    A --> UserMgmt : <<Add User>>
+    A --> UserMgmt : <<Update User>>
+    A --> UserMgmt : <<Remove User>>
+    A --> Logs : <<View Logs>>
+
+    TS --> Requests : <<Accept Request>>
+    TS --> Requests : <<Reject Request>>
+    TS --> Requests : <<Mark Request as Done>>
+
+    R --> ResearchProjects : <<Create Research Project>>
+    R --> ResearchProjects : <<Join Research Project>>
+    R --> ResearchPapers : <<Create Research Paper>>
+    R --> ResearchPapers : <<Print Papers>>
+    R --> HIndex : <<Calculate H-Index>>
+    R --> Journals : <<Subscribe to Journal>>
 }
 @enduml
