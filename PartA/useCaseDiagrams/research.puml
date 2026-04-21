@@ -1,0 +1,35 @@
+@startuml
+skinparam theme plain
+skinparam packageStyle rectangle
+skinparam roundcorner 10
+skinparam shadowing false
+skinparam defaultFontName "Segoe UI"
+
+skinparam actor {
+    BackgroundColor #E8F5E9
+    BorderColor #2E7D32
+}
+skinparam usecase {
+    BackgroundColor #FAFAFA
+    BorderColor #37474F
+    ArrowColor #546E7A
+}
+
+left to right direction
+
+actor "Researcher" as R
+
+rectangle "Research Subsystem" {
+    usecase "Research Projects" as ResearchProjects
+    usecase "Research Papers" as ResearchPapers
+    usecase "H-Index" as HIndex
+    usecase "Journals" as Journals
+
+    R --> ResearchProjects : <<Create Research Project>>
+    R --> ResearchProjects : <<Join Research Project>>
+    R --> ResearchPapers : <<Create Research Paper>>
+    R --> ResearchPapers : <<Print Papers>>
+    R --> HIndex : <<Calculate H-Index>>
+    R --> Journals : <<Subscribe to Journal>>
+}
+@enduml

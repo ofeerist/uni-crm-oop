@@ -1,0 +1,36 @@
+@startuml
+skinparam theme plain
+skinparam packageStyle rectangle
+skinparam roundcorner 10
+skinparam shadowing false
+skinparam defaultFontName "Segoe UI"
+
+skinparam actor {
+    BackgroundColor #FFF3E0
+    BorderColor #EF6C00
+}
+skinparam usecase {
+    BackgroundColor #FAFAFA
+    BorderColor #37474F
+    ArrowColor #546E7A
+}
+
+left to right direction
+
+actor "User" as U
+actor "Manager" as M
+actor "Teacher" as T
+
+rectangle "Communication Subsystem" {
+    usecase "Messages" as Messages
+    usecase "News" as News
+
+    U --> News : <<View News>>
+    U --> Messages : <<Send Message>>
+    U --> Messages : <<View Messages>>
+
+    M --> News : <<Manage News>>
+
+    T --> Messages : <<Send Message>>
+}
+@enduml
