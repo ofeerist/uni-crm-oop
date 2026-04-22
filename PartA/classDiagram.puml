@@ -164,7 +164,7 @@ abstract class UserDecorator {
 }
 
 class Message {
-    - sender: Employee
+    - sender: User
     - content: String
     - date: Date
 }
@@ -212,7 +212,7 @@ Course "1" *-- "*" Mark : "has"
 Course "1" *-- "*" Lesson : "consists of"
 Teacher "*" -- "*" Course : "teaches"
 Manager "1" -- "*" Course : "manages"
-Employee "1" -- "*" Message : "sends/receives"
+User "1" -- "*" Message : "sends/receives"
 TechSupporter "1" -- "*" TechRequest : "handles"
 
 Researcher "1" -- "*" ResearchPaper : "authors"
