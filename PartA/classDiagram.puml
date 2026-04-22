@@ -51,18 +51,18 @@ abstract class User {
     - email: String
     - phoneNumber: String
     - registrationDate: Date
+    - messages: List<Message>
     + login(): boolean
     + logout(): boolean
     + viewNews(): void
+    + sendMessage(m: Message): void
+    + receiveMessage(m: Message): void
+    + viewMessages(): void
 }
 
 abstract class Employee {
     - employeeId: int
     - position: String
-    - messages: List<Message>
-    + sendMessage(m: Message): void
-    + receiveMessage(m: Message): void
-    + viewMessages(): void
 }
 
 rectangle "Academic Block" {
