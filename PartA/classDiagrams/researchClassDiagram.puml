@@ -1,0 +1,154 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+package "Session & State" {
+    class UserSession <<Singleton>> {
+        -{static} instance: UserSession
+        -currentUser: User
+        +getInstance(): UserSession
+        +getCurrentUser(): User
+    }
+}
+
+package "Command Layer" {
+    class PublishPaperCommand {
+        -researchService: ResearchService
+        -userSession: UserSession
+        +execute(): void
+    }
+    class PrintMyPapersCommand {
+        -researchService: ResearchService
+        -userSession: UserSession
+        +execute(): void
+    }
+    class SubscribeToJournalCommand {
+        -notificationService: NotificationService
+        -userSession: UserSession
+        +execute(): void
+    }
+    class GetCitationCommand {
+        -userSession: UserSession
+        +execute(): void
+    }
+    class ViewTopResearcherCommand {
+        -researchService: ResearchService
+        -userSession: UserSession
+        +execute(): void
+    }
+}
+
+package "Service Layer" {
+    class ResearchService {
+        -userRepo: UserRepository
+        -projectRepo: ResearchProjectRepository
+        +becomeResearcher(user: User): ResearcherDecorator
+        +publishPaper(author: ResearcherDecorator, paper: ResearchPaper): void
+        +calculateHIndex(researcher: ResearcherDecorator): void
+        +printPapersSorted(researcher: ResearcherDecorator, c: Comparator<ResearchPaper>): void
+        +getTopCitedResearcher(): ResearcherDecorator
+    }
+    class NotificationService {
+        -journalRepo: JournalRepository
+        -userRepo: UserRepository
+        +subscribe(user: User, journal: UniversityJournal): void
+        +notifySubscribers(journal: UniversityJournal, paper: ResearchPaper): void
+    }
+}
+
+package "Repository Layer" {
+    class UserRepository {
+        -users: List<User>
+        -fileName: String = "users.dat"
+        +save(entity: User): void
+        +findAll(): List<User>
+    }
+    class JournalRepository {
+        -journals: List<UniversityJournal>
+        -fileName: String = "journals.dat"
+        +save(entity: UniversityJournal): void
+        +findById(id: String): UniversityJournal
+    }
+    class ResearchProjectRepository {
+        -projects: List<ResearchProject>
+        -fileName: String = "projects.dat"
+        +save(entity: ResearchProject): void
+        +findById(id: String): ResearchProject
+    }
+}
+
+package "Domain Layer" {
+    interface JournalSubscriber {
+        +update(): void
+    }
+
+    abstract class User implements JournalSubscriber {
+        -id: String
+        -username: String
+        -journalSubscriptions: List<UniversityJournal>
+    }
+
+    class ResearcherDecorator extends User {
+        -baseUser: User
+        -hIndex: int
+        -publishedPapers: List<ResearchPaper>
+        -participatingProjects: List<ResearchProject>
+    }
+    ResearcherDecorator o-- User : "baseUser"
+
+    class ResearchPaper {
+        -id: String
+        -title: String
+        -authors: List<String>
+        -journal: String
+        -pages: int
+        -date: Date
+        -doi: String
+        -citations: int
+        -publishedIn: UniversityJournal
+        +getCitation(format: Format): String
+    }
+    enum Format {
+        PLAIN_TEXT, BIBTEX
+    }
+    ResearchPaper ..> Format
+
+    class UniversityJournal {
+        -id: String
+        -name: String
+        -subscribers: List<User>
+        -papers: List<ResearchPaper>
+    }
+
+    class ResearchProject {
+        -id: String
+        -topic: String
+        -participants: List<ResearcherDecorator>
+        -publishedPapers: List<ResearchPaper>
+    }
+}
+
+' Command to Service
+PublishPaperCommand o-- ResearchService
+PublishPaperCommand o-- UserSession
+SubscribeToJournalCommand o-- NotificationService
+SubscribeToJournalCommand o-- UserSession
+
+' Service to Repo
+ResearchService o-- UserRepository
+ResearchService o-- ResearchProjectRepository
+NotificationService o-- JournalRepository
+NotificationService o-- UserRepository
+
+' Repo to Domain
+UserRepository o-- User
+JournalRepository o-- UniversityJournal
+ResearchProjectRepository o-- ResearchProject
+
+' Domain connections
+ResearcherDecorator "1" -- "N" ResearchPaper : "publishes"
+UniversityJournal "1" -- "N" ResearchPaper : "contains"
+UniversityJournal "M" -- "N" User : "subscribers"
+ResearchProject "M" -- "N" ResearcherDecorator : "participants"
+
+@enduml

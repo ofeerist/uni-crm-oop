@@ -1,0 +1,160 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+package "Session & State" {
+    class UserSession <<Singleton>> {
+        -{static} instance: UserSession
+        -currentUser: User
+        +getInstance(): UserSession
+        +getCurrentUser(): User
+    }
+}
+
+package "Command Layer" {
+    class ViewNewRequestsCommand {
+        -techSupportService: TechSupportService
+        -userSession: UserSession
+        +execute(): void
+    }
+    class ChangeRequestStatusCommand {
+        -techSupportService: TechSupportService
+        -techRepo: TechRequestRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+    class SendMessageCommand {
+        -communicationService: CommunicationService
+        -userRepo: UserRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+    class SendComplaintCommand {
+        -communicationService: CommunicationService
+        -userRepo: UserRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+}
+
+package "Service Layer" {
+    class TechSupportService {
+        -requestRepo: TechRequestRepository
+        -userRepo: UserRepository
+        +createRequest(author: User, description: String): void
+        +processRequest(spec: TechSupportSpecialist, req: TechRequest, newStatus: RequestStatus): void
+    }
+    class CommunicationService {
+        -messageRepo: MessageRepository
+        -complaintRepo: ComplaintRepository
+        -userRepo: UserRepository
+        +sendMessage(sender: Employee, receiver: Employee, content: String): void
+        +sendComplaint(teacher: Teacher, student: Student, urgency: UrgencyLevel, reason: String): void
+    }
+}
+
+package "Repository Layer" {
+    class TechRequestRepository {
+        -requests: List<TechRequest>
+        -fileName: String = "requests.dat"
+        +save(entity: TechRequest): void
+        +findAll(): List<TechRequest>
+    }
+    class MessageRepository {
+        -messages: List<Message>
+        -fileName: String = "messages.dat"
+        +save(entity: Message): void
+    }
+    class ComplaintRepository {
+        -complaints: List<Complaint>
+        -fileName: String = "complaints.dat"
+        +save(entity: Complaint): void
+    }
+    class UserRepository {
+        -users: List<User>
+        -fileName: String = "users.dat"
+    }
+}
+
+package "Domain Layer" {
+    abstract class User {
+        -id: String
+        -username: String
+    }
+    abstract class Employee extends User {
+        -sentMessages: List<Message>
+        -receivedMessages: List<Message>
+    }
+    class TechSupportSpecialist extends Employee {
+        -handledRequests: List<TechRequest>
+    }
+    class Teacher extends Employee {
+        -complaintsFiled: List<Complaint>
+    }
+    class Student extends User {
+        -major: String
+    }
+
+    class TechRequest {
+        -id: String
+        -description: String
+        -status: RequestStatus
+        -author: User
+        -executor: TechSupportSpecialist
+        -creationDate: Date
+    }
+    enum RequestStatus {
+        NEW, VIEWED, ACCEPTED, REJECTED, DONE
+    }
+    TechRequest *-down- RequestStatus
+
+    class Message {
+        -id: String
+        -sender: Employee
+        -receiver: Employee
+        -content: String
+        -timestamp: Date
+    }
+
+    class Complaint {
+        -id: String
+        -reason: String
+        -urgency: UrgencyLevel
+        -author: Teacher
+        -accusedStudent: Student
+        -creationDate: Date
+    }
+    enum UrgencyLevel {
+        LOW, MEDIUM, HIGH
+    }
+    Complaint *-down- UrgencyLevel
+}
+
+' Commands to Services
+ViewNewRequestsCommand o-- TechSupportService
+ChangeRequestStatusCommand o-- TechSupportService
+SendMessageCommand o-- CommunicationService
+SendComplaintCommand o-- CommunicationService
+ViewNewRequestsCommand o-- UserSession
+
+' Services to Repos
+TechSupportService o-- TechRequestRepository
+TechSupportService o-- UserRepository
+CommunicationService o-- MessageRepository
+CommunicationService o-- ComplaintRepository
+CommunicationService o-- UserRepository
+
+' Repos to Domain
+TechRequestRepository o-- TechRequest
+MessageRepository o-- Message
+ComplaintRepository o-- Complaint
+UserRepository o-- User
+
+' Domain relations
+TechRequest "M" -- "1" User : "author"
+TechRequest "M" -- "1" TechSupportSpecialist : "executor"
+Message "M" -- "1" Employee : "sender/receiver"
+Complaint "M" -- "1" Teacher : "author"
+Complaint "M" -- "1" Student : "accused"
+
+@enduml

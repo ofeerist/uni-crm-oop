@@ -1,0 +1,205 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 50
+
+package "Session & State" {
+    class UserSession <<Singleton>> {
+        -{static} instance: UserSession
+        -currentUser: User
+        -UserSession()
+        +{static} getInstance(): UserSession
+        +getCurrentUser(): User
+        +setCurrentUser(user: User): void
+        +clearSession(): void
+    }
+}
+
+package "Command Layer" {
+    class RegisterForCourseCommand {
+        -courseRegService: CourseRegistrationService
+        -courseRepo: CourseRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+    class PutMarkCommand {
+        -academicService: AcademicService
+        -userRepo: UserRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+    class ViewTranscriptCommand {
+        -academicService: AcademicService
+        -userSession: UserSession
+        +execute(): void
+    }
+    class AssignCourseToTeacherCommand {
+        -managerService: ManagerService
+        -userRepo: UserRepository
+        -courseRepo: CourseRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+    class ApproveStudentRegistrationCommand {
+        -courseRegService: CourseRegistrationService
+        -userSession: UserSession
+        +execute(): void
+    }
+}
+
+package "Service Layer" {
+    class AuthService {
+        -userRepo: UserRepository
+        +login(username: String, password: String): void
+        +logout(): void
+    }
+    class CourseRegistrationService {
+        -userRepo: UserRepository
+        -courseRepo: CourseRepository
+        +registerStudent(student: Student, course: Course): void
+        +approveRegistration(manager: Manager, student: Student, course: Course): void
+    }
+    class AcademicService {
+        -userRepo: UserRepository
+        -courseRepo: CourseRepository
+        +putMark(teacher: Teacher, student: Student, course: Course, data: MarkData): void
+        +checkFailLimits(student: Student): void
+        +getTranscript(student: Student): String
+    }
+    class ManagerService {
+        -courseRepo: CourseRepository
+        -userRepo: UserRepository
+        +assignCourseToTeacher(course: Course, teacher: Teacher): void
+        +generateAcademicReport(): String
+    }
+}
+
+package "Repository Layer" {
+    interface IRepository<T, ID> {
+        +save(entity: T): void
+        +findById(id: ID): T
+        +findAll(): List<T>
+        +delete(id: ID): void
+    }
+    class UserRepository {
+        -users: List<User>
+        -fileName: String = "users.dat"
+        +findByRole(role: String): List<User>
+    }
+    class CourseRepository {
+        -courses: List<Course>
+        -fileName: String = "courses.dat"
+    }
+    IRepository <|.. UserRepository
+    IRepository <|.. CourseRepository
+}
+
+package "Domain Layer" {
+    abstract class User {
+        -id: String
+        -firstName: String
+        -lastName: String
+        -username: String
+        -password: String
+        -preferredLanguage: Language
+        -journalSubscriptions: List<UniversityJournal>
+    }
+    enum Language {
+        KZ, EN, RU
+    }
+    User *-right- Language
+
+    class Student extends User {
+        -major: String
+        -yearOfStudy: int
+        -currentCredits: int = 0
+        -failCount: int = 0
+        -registeredCourses: List<Course>
+        -marks: List<Mark>
+    }
+
+    abstract class Employee extends User {
+        -sentMessages: List<Message>
+        -receivedMessages: List<Message>
+    }
+
+    class Teacher extends Employee {
+        -position: String
+        -averageRating: double
+        -type: TeacherType
+        -assignedCourses: List<Course>
+        -complaintsFiled: List<Complaint>
+    }
+    enum TeacherType {
+        TUTOR, LECTOR, SENIOR_LECTOR, PROFESSOR
+    }
+    Teacher *-left- TeacherType
+
+    class Manager extends Employee {
+        -type: ManagerType
+    }
+    enum ManagerType {
+        OR, DEPARTMENT
+    }
+    Manager *-left- ManagerType
+
+    class Course {
+        -courseId: String
+        -name: String
+        -credits: int
+        -category: CourseCategory
+        -lessons: List<Lesson>
+        -marks: List<Mark>
+        -enrolledStudents: List<Student>
+        -assignedTeachers: List<Teacher>
+    }
+    enum CourseCategory {
+        MAJOR, MINOR, FREE_ELECTIVE
+    }
+    Course *-down- CourseCategory
+
+    class Mark {
+        -id: String
+        -firstAttestation: double
+        -secondAttestation: double
+        -finalExam: double
+        -student: Student
+        -course: Course
+    }
+    class Lesson {
+        -type: LessonType
+        -room: String
+        -time: String
+        -course: Course
+    }
+}
+
+' Command to Service/Session links
+RegisterForCourseCommand o-- CourseRegistrationService
+RegisterForCourseCommand o-- UserSession
+PutMarkCommand o-- AcademicService
+PutMarkCommand o-- UserSession
+AssignCourseToTeacherCommand o-- ManagerService
+AssignCourseToTeacherCommand o-- UserSession
+
+' Service to Repository links
+CourseRegistrationService o-- UserRepository
+CourseRegistrationService o-- CourseRepository
+AcademicService o-- UserRepository
+AcademicService o-- CourseRepository
+ManagerService o-- CourseRepository
+ManagerService o-- UserRepository
+
+' Repo to Domain links
+UserRepository o-- User
+CourseRepository o-- Course
+
+' Domain Links
+Student "1" -- "N" Mark : "receives"
+Course "1" -- "N" Mark : "has"
+Course "1" -- "N" Lesson : "contains"
+Teacher "M" -- "N" Course : "assigned to"
+Student "M" -- "N" Course : "registered"
+
+@enduml
