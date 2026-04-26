@@ -3,79 +3,119 @@ skinparam classAttributeIconSize 0
 skinparam roundcorner 10
 skinparam nodesep 50
 skinparam ranksep 50
+skinparam shadowing false
+skinparam defaultFontName "Segoe UI"
 
+' =========================
+' ENUMS
+' =========================
 rectangle "Enums" {
     enum TeacherType { 
-        TUTOR, LECTOR, 
-        SENIOR_LECTOR, 
+        TUTOR
+        LECTOR
+        SENIOR_LECTOR
         PROFESSOR 
     }
+
     enum ManagerType { 
-        OR, 
-        DEPARTMENT_HEAD, 
+        OR
+        DEPARTMENT_HEAD
         DEAN 
     }
+
     enum CourseType { 
-        MAJOR, 
-        MINOR, 
+        MAJOR
+        MINOR
         FREE_ELECTIVE 
     }
+
     enum LessonType { 
-        LECTURE, 
+        LECTURE
         PRACTICE 
     }
+
     enum MarkType { 
-        FIRST_ATTESTATION, 
-        SECOND_ATTESTATION, 
+        FIRST_ATTESTATION
+        SECOND_ATTESTATION
         FINAL_EXAM 
     }
+
     enum RequestStatus { 
-        NEW, 
-        VIEWED, 
-        ACCEPTED, 
-        REJECTED, 
+        NEW
+        VIEWED
+        ACCEPTED
+        REJECTED
         DONE 
     }
+
     enum Urgency { 
-        LOW, 
-        MEDIUM, 
+        LOW
+        MEDIUM
         HIGH 
+    }
+
+    enum Language {
+        ENG
+        KAZ
+        RUS
+    }
+
+    enum StudentType {
+        BACHELOR
+        MASTER
+        PHD
+    }
+
+    enum PublicationFormat {
+        PLAIN_TEXT
+        BIBTEX
     }
 }
 
+' =========================
+' CORE USERS
+' =========================
 abstract class User {
     - userId: int
-    - firstname: String
-    - lastname: String
-    - password: Password
+    - firstName: String
+    - lastName: String
+    - password: String
     - email: String
     - phoneNumber: String
     - registrationDate: Date
-    - messages: List<Message>
     + login(): boolean
     + logout(): boolean
     + viewNews(): void
-    + sendMessage(m: Message): void
-    + receiveMessage(m: Message): void
-    + viewMessages(): void
 }
 
 abstract class Employee {
     - employeeId: int
     - position: String
+    - messages: List<Message>
+    + sendMessage(m: Message): void
+    + receiveMessage(m: Message): void
+    + viewMessages(): void
 }
 
+abstract class UserDecorator {
+    # decoratedUser: User
+    + UserDecorator(u: User)
+}
+
+' =========================
+' ACADEMIC BLOCK
+' =========================
 rectangle "Academic Block" {
 
     class Student {
-    - studentId: int
-    - yearOfStudy: int
-    - gpa: double
-    - credits: int
-    + registerForCourse(c: Course): void
-    + viewCourses(): void
-    + viewMarks(): void
-    + viewTranscript(): void
+        - studentId: int
+        - yearOfStudy: int
+        - gpa: double
+        - credits: int
+        - studentType: StudentType
+        + viewCourses(): void
+        + viewMarks(): void
+        + viewTranscript(): void
     }
 
     class GraduateStudent {
@@ -86,22 +126,15 @@ rectangle "Academic Block" {
     class Teacher {
         - teacherId: int
         - teacherType: TeacherType
-        + addCourse(c: Course): void
-        + removeCourse(c: Course): void
-        + addLesson(l: Lesson): void
         + viewCourses(): void
         + viewStudents(): void
-        + assignMark(s: Student, c: Course, m: Mark): void
-        + sendComplaint(s: Student, u: Urgency): void
     }
 
     class Manager {
         - managerId: int
         - managerType: ManagerType
-        + assignCourseToTeacher(c: Course, t: Teacher): void
-        + approveRegistration(s: Student, c: Course): void
-        + createReport(): void
-        + manageNews(): void
+        + viewRequests(): void
+        + viewUserInfo(u: User): void
     }
 
     class Course {
@@ -109,9 +142,6 @@ rectangle "Academic Block" {
         - name: String
         - credits: int
         - courseType: CourseType
-        + addStudent(s: Student): void
-        + removeStudent(s: Student): void
-        + assignTeacher(t: Teacher): void
         + viewCourseInfo(): void
     }
 
@@ -120,8 +150,6 @@ rectangle "Academic Block" {
         - lessonType: LessonType
         - date: Date
         - topic: String
-        + assignStudent(s: Student): void
-        + viewStudents(): void
     }
 
     class Mark {
@@ -129,46 +157,79 @@ rectangle "Academic Block" {
         - markType: MarkType
         + calculateTotal(): double
     }
-
 }
 
-rectangle "Tech Support" {
+' =========================
+' ADMIN & SUPPORT
+' =========================
+rectangle "Admin & Support" {
+
+    class Admin {
+        - adminId: int
+        + viewLogs(): void
+    }
 
     class TechSupporter {
         - supportId: int
         + viewRequests(): void
-        + acceptRequest(r: TechRequest): void
-        + rejectRequest(r: TechRequest): void
-        + completeRequest(r: TechRequest): void
     }
 
     class TechRequest {
+        - requestId: int
         - description: String
         - status: RequestStatus
+        - urgency: Urgency
+        - author: User
+        - assignee: TechSupporter
     }
 
+    class Complaint {
+        - complaintId: int
+        - urgency: Urgency
+        - content: String
+    }
+
+    class LogEntry {
+        - type: String
+        - date: Date
+        - user: User
+    }
 }
 
-class Admin {
-    - adminId: int
-    + addUser(u: User): void
-    + removeUser(u: User): void
-    + updateUser(u: User): void
-    + viewLogs(): void
+' =========================
+' COMMUNICATION
+' =========================
+rectangle "Communication" {
+
+    class Message {
+        - sender: User
+        - receiver: User
+        - content: String
+        - date: Date
+    }
+
+    class News {
+        - newsId: int
+        - title: String
+        - content: String
+        - topic: String
+        - date: Date
+        + addComment(c: CommentNews): void
+    }
+
+    class CommentNews {
+        - content: String
+        - author: User
+        - timestamp: Date
+        - pinned: boolean
+        + pinComment(): void
+        + editComment(newContent: String): void
+    }
 }
 
-
-abstract class UserDecorator {
-    # decoratedUser: User
-    + UserDecorator(u: User)
-}
-
-class Message {
-    - sender: User
-    - content: String
-    - date: Date
-}
-
+' =========================
+' RESEARCH
+' =========================
 rectangle "Research" {
 
     class Researcher {
@@ -185,16 +246,123 @@ rectangle "Research" {
         - pages: int
         - doi: String
         - datePublished: Date
-        + getCitation(format: String): String
+        + getCitation(format: PublicationFormat): String
     }
 
     class ResearchProject {
         - topic: String
         + addParticipant(r: Researcher): void
+        + addPaper(p: ResearchPaper): void
     }
 
+    class Journal {
+        - journalId: int
+        - name: String
+        - topic: String
+        - papers: List<ResearchPaper>
+        - subscribers: List<User>
+        + addResearchPaper(p: ResearchPaper): void
+        + subscribe(u: User): void
+        + notifySubscribers(p: ResearchPaper): void
+    }
 }
 
+' =========================
+' STUDENT LIFE
+' =========================
+rectangle "Student Life" {
+    class StudentOrganization {
+        - name: String
+        - description: String
+        - head: Student
+        - members: List<Student>
+        + addMember(s: Student): void
+        + removeMember(s: Student): void
+        + setHead(s: Student): void
+    }
+}
+
+' =========================
+' SERVICES
+' =========================
+rectangle "Services" {
+
+    class CourseRegistrationService {
+        + registerForCourse(s: Student, c: Course): void
+        + checkPrerequisites(s: Student, c: Course): boolean
+        + approveRegistration(m: Manager, s: Student, c: Course): void
+    }
+
+    class CourseManagementService {
+        + assignCourseToTeacher(m: Manager, c: Course, t: Teacher): void
+        + addCourseForRegistration(m: Manager, c: Course): void
+        + manageCourse(t: Teacher, c: Course): void
+    }
+
+    class MarkService {
+        + assignMark(t: Teacher, s: Student, c: Course, m: Mark): void
+        + calculateTotal(marks: List<Mark>): double
+    }
+
+    class UserManagementService {
+        + addUser(a: Admin, u: User): void
+        + removeUser(a: Admin, u: User): void
+        + updateUser(a: Admin, u: User): void
+        + provideUserInfo(m: Manager, u: User): User
+    }
+
+    class MessagingService {
+        + sendMessage(sender: User, receiver: User, content: String): Message
+        + viewMessages(u: User): List<Message>
+    }
+
+    class TechSupportService {
+        + createRequest(author: User, description: String): TechRequest
+        + acceptRequest(ts: TechSupporter, r: TechRequest): void
+        + rejectRequest(ts: TechSupporter, r: TechRequest): void
+        + completeRequest(ts: TechSupporter, r: TechRequest): void
+    }
+
+    class ResearchService {
+        + createResearchPaper(r: Researcher, j: Journal): ResearchPaper
+        + createResearchProject(r: Researcher): ResearchProject
+        + publishPaperToJournal(r: Researcher, p: ResearchPaper, j: Journal): void
+        + calculateHIndex(r: Researcher): int
+    }
+
+    class JournalService {
+        + subscribe(u: User, j: Journal): void
+        + publishPaper(j: Journal, p: ResearchPaper): void
+        + notifySubscribers(j: Journal, p: ResearchPaper): void
+    }
+
+    class NewsService {
+        + publishNews(title: String, content: String): News
+        + publishResearchNews(p: ResearchPaper, j: Journal): News
+    }
+
+    class ReportService {
+        + createAcademicReport(m: Manager): void
+    }
+}
+
+' =========================
+' APPLICATION CORE
+' =========================
+class Hub {
+    - users: List<User>
+    - courses: List<Course>
+    - requests: List<TechRequest>
+    - news: List<News>
+    - journals: List<Journal>
+    - logs: List<LogEntry>
+    + getInstance(): Hub
+    + addLogEntry(log: LogEntry): void
+}
+
+' =========================
+' INHERITANCE
+' =========================
 User <|-- Student
 Student <|-- GraduateStudent
 User <|-- Employee
@@ -205,17 +373,103 @@ Employee <|-- Admin
 
 User <|-- UserDecorator
 UserDecorator <|-- Researcher
-UserDecorator o-- User : "wraps"
+UserDecorator o-- User : wraps
 
-Student "1" -- "*" Mark : "receives"
-Course "1" *-- "*" Mark : "has"
-Course "1" *-- "*" Lesson : "consists of"
-Teacher "*" -- "*" Course : "teaches"
-Manager "1" -- "*" Course : "manages"
-User "1" -- "*" Message : "sends/receives"
-TechSupporter "1" -- "*" TechRequest : "handles"
+' =========================
+' DOMAIN ASSOCIATIONS
+' =========================
+Student "*" -- "*" Course : registers
+Student "1" -- "*" Mark : receives
+Course "1" *-- "*" Mark : has
+Course "1" *-- "*" Lesson : consists of
+Teacher "*" -- "*" Course : teaches
+Manager "1" -- "*" Course : manages
+Employee "1" -- "*" Message : sends/receives
 
-Researcher "1" -- "*" ResearchPaper : "authors"
-Researcher "*" -- "*" ResearchProject : "participates in"
+Teacher "1" -- "*" TechRequest : creates
+TechSupporter "1" -- "*" TechRequest : handles
+Manager "1" -- "*" TechRequest : views
+Admin "1" -- "*" LogEntry : views
+
+Manager "*" -- "*" User : gets info
+
+Researcher "1" -- "*" ResearchPaper : authors
+Researcher "*" -- "*" ResearchProject : participates in
+ResearchProject "1" *-- "*" ResearchPaper : contains
+Journal "1" -- "*" ResearchPaper : publishes
+Researcher "*" -- "*" Journal : subscribes/publishes
+
+News "1" -- "*" CommentNews : has
+CommentNews "*" -- "1" User : author
+
+Student "*" -- "*" StudentOrganization : member
+StudentOrganization "0..1" -- "1" Student : head
+
+' =========================
+' SERVICE DEPENDENCIES
+' =========================
+CourseRegistrationService ..> Student
+CourseRegistrationService ..> Course
+CourseRegistrationService ..> Manager
+
+CourseManagementService ..> Course
+CourseManagementService ..> Teacher
+CourseManagementService ..> Manager
+
+MarkService ..> Mark
+MarkService ..> Teacher
+MarkService ..> Student
+MarkService ..> Course
+
+UserManagementService ..> User
+UserManagementService ..> Admin
+UserManagementService ..> Manager
+
+MessagingService ..> Message
+MessagingService ..> User
+
+TechSupportService ..> TechRequest
+TechSupportService ..> TechSupporter
+TechSupportService ..> User
+
+ResearchService ..> Researcher
+ResearchService ..> ResearchPaper
+ResearchService ..> ResearchProject
+ResearchService ..> Journal
+ResearchService ..> NewsService : creates research news
+
+JournalService ..> Journal
+JournalService ..> ResearchPaper
+JournalService ..> User
+
+NewsService ..> News
+NewsService ..> ResearchPaper
+NewsService ..> Journal
+
+ReportService ..> Manager
+ReportService ..> Course
+ReportService ..> Mark
+
+Hub "1" -- "*" User
+Hub "1" -- "*" Course
+Hub "1" -- "*" TechRequest
+Hub "1" -- "*" News
+Hub "1" -- "*" Journal
+Hub "1" -- "*" LogEntry
+
+' =========================
+' ENUM CONNECTIONS
+' =========================
+Teacher --> TeacherType
+Manager --> ManagerType
+Course --> CourseType
+Lesson --> LessonType
+Mark --> MarkType
+TechRequest --> RequestStatus
+TechRequest --> Urgency
+Complaint --> Urgency
+User --> Language
+Student --> StudentType
+ResearchPaper --> PublicationFormat
 
 @enduml
