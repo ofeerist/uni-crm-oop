@@ -1,51 +1,40 @@
 package PartB.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class User {
 
-    protected int userId;
-    protected String firstName;
-    protected String lastName;
-    protected String password;
-    protected String email;
-    protected String phoneNumber;
-    protected Date registrationDate;
+    private final int id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String phoneNumber;
+    private final Date registrationDate;
 
-    public User() {
-        this.registrationDate = new Date();
-    }
+    private final List<Message> inbox;
+    private final List<Message> sentMessages;
 
-    public User(int userId, String firstName, String lastName, String password,
-                String email, String phoneNumber, Date registrationDate) {
-        this.userId = userId;
+    public User(int id, String firstName, String lastName, String email,
+                String password, String phoneNumber, Date registrationDate) {
+
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.email = email;
+        this.password = password;
         this.phoneNumber = phoneNumber;
         this.registrationDate = registrationDate;
+
+        this.inbox = new ArrayList<>();
+        this.sentMessages = new ArrayList<>();
     }
 
-    public boolean login(String email, String password) {
-        return this.email.equals(email) && this.password.equals(password);
-    }
-
-    public void logout() {
-        System.out.println(firstName + " logged out.");
-    }
-
-    public void viewNews() {
-        System.out.println(firstName + " is viewing news.");
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public int getId() {
+        return id;
     }
 
     public String getFirstName() {
@@ -64,12 +53,8 @@ public abstract class User {
         this.lastName = lastName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public String getEmail() {
@@ -78,6 +63,14 @@ public abstract class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhoneNumber() {
@@ -92,8 +85,12 @@ public abstract class User {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
+    public List<Message> getInbox() {
+        return inbox;
+    }
+
+    public List<Message> getSentMessages() {
+        return sentMessages;
     }
 
     @Override
@@ -101,23 +98,20 @@ public abstract class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return userId == user.userId;
+        return id == user.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "id=" + id +
+                ", fullName='" + getFullName() + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", registrationDate=" + registrationDate +
                 '}';
     }
 }

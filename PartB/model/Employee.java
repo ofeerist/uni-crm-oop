@@ -1,49 +1,25 @@
 package PartB.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 public abstract class Employee extends User {
 
-    protected int employeeId;
-    protected String position;
-    protected List<Message> messages;
+    private final int employeeId;
+    private String position;
 
-    public Employee() {
-        super();
-        this.messages = new ArrayList<>();
-    }
-
-    public Employee(int userId, String firstName, String lastName, String password,
-                    String email, String phoneNumber, Date registrationDate,
+    public Employee(int id, String firstName, String lastName, String email,
+                    String password, String phoneNumber, Date registrationDate,
                     int employeeId, String position) {
-        super(userId, firstName, lastName, password, email, phoneNumber, registrationDate);
+
+        super(id, firstName, lastName, email, password, phoneNumber, registrationDate);
+
         this.employeeId = employeeId;
         this.position = position;
-        this.messages = new ArrayList<>();
-    }
-
-    public void sendMessage(Message message) {
-        messages.add(message);
-    }
-
-    public void receiveMessage(Message message) {
-        messages.add(message);
-    }
-
-    public void viewMessages() {
-        for (Message message : messages) {
-            System.out.println(message);
-        }
     }
 
     public int getEmployeeId() {
         return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
     }
 
     public String getPosition() {
@@ -54,21 +30,26 @@ public abstract class Employee extends User {
         this.position = position;
     }
 
-    public List<Message> getMessages() {
-        return messages;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        if (!super.equals(o)) return false;
+        Employee employee = (Employee) o;
+        return employeeId == employee.employeeId;
     }
 
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), employeeId);
     }
 
     @Override
     public String toString() {
         return "Employee{" +
                 "employeeId=" + employeeId +
+                ", fullName='" + getFullName() + '\'' +
                 ", position='" + position + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
                 '}';
     }
 }

@@ -1,74 +1,46 @@
 package PartB.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 
 public class TechSupporter extends Employee {
 
-    private int supportId;
-    private List<TechRequest> requests;
+    private final int supportId;
 
-    public TechSupporter() {
-        super();
-        this.requests = new ArrayList<>();
-    }
-
-    public TechSupporter(int userId, String firstName, String lastName, String password,
-                         String email, String phoneNumber, Date registrationDate,
+    public TechSupporter(int id, String firstName, String lastName, String email,
+                         String password, String phoneNumber, Date registrationDate,
                          int employeeId, String position, int supportId) {
 
-        super(userId, firstName, lastName, password, email, phoneNumber,
+        super(id, firstName, lastName, email, password, phoneNumber,
               registrationDate, employeeId, position);
 
         this.supportId = supportId;
-        this.requests = new ArrayList<>();
-    }
-
-    public void viewRequests() {
-        for (TechRequest request : requests) {
-            System.out.println(request);
-        }
-    }
-
-    public void acceptRequest(TechRequest request) {
-        request.setStatus(PartB.enums.RequestStatus.ACCEPTED);
-    }
-
-    public void rejectRequest(TechRequest request) {
-        request.setStatus(PartB.enums.RequestStatus.REJECTED);
-    }
-
-    public void completeRequest(TechRequest request) {
-        request.setStatus(PartB.enums.RequestStatus.DONE);
-    }
-
-    public void addRequest(TechRequest request) {
-        requests.add(request);
     }
 
     public int getSupportId() {
         return supportId;
     }
 
-    public void setSupportId(int supportId) {
-        this.supportId = supportId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TechSupporter)) return false;
+        if (!super.equals(o)) return false;
+        TechSupporter that = (TechSupporter) o;
+        return supportId == that.supportId;
     }
 
-    public List<TechRequest> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(List<TechRequest> requests) {
-        this.requests = requests;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), supportId);
     }
 
     @Override
     public String toString() {
         return "TechSupporter{" +
                 "supportId=" + supportId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", fullName='" + getFullName() + '\'' +
+                ", position='" + getPosition() + '\'' +
                 '}';
     }
 }

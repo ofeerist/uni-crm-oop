@@ -1,31 +1,24 @@
 package PartB.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.Objects;
 
 public class ResearchProject {
 
+    private final String id;
     private String topic;
-    private List<Researcher> participants;
-    private List<ResearchPaper> papers;
+    private Date startDate;
+    private Date endDate;
 
-    public ResearchProject() {
-        this.participants = new ArrayList<>();
-        this.papers = new ArrayList<>();
-    }
-
-    public ResearchProject(String topic) {
+    public ResearchProject(String id, String topic, Date startDate, Date endDate) {
+        this.id = id;
         this.topic = topic;
-        this.participants = new ArrayList<>();
-        this.papers = new ArrayList<>();
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public void addParticipant(Researcher researcher) {
-        participants.add(researcher);
-    }
-
-    public void addPaper(ResearchPaper paper) {
-        papers.add(paper);
+    public String getId() {
+        return id;
     }
 
     public String getTopic() {
@@ -36,28 +29,42 @@ public class ResearchProject {
         this.topic = topic;
     }
 
-    public List<Researcher> getParticipants() {
-        return participants;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setParticipants(List<Researcher> participants) {
-        this.participants = participants;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public List<ResearchPaper> getPapers() {
-        return papers;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setPapers(List<ResearchPaper> papers) {
-        this.papers = papers;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResearchProject)) return false;
+        ResearchProject that = (ResearchProject) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "ResearchProject{" +
-                "topic='" + topic + '\'' +
-                ", participants=" + participants.size() +
-                ", papers=" + papers.size() +
+                "id='" + id + '\'' +
+                ", topic='" + topic + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 '}';
     }
 }

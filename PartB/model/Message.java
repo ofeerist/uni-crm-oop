@@ -1,39 +1,35 @@
 package PartB.model;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Message {
 
-    private User sender;
-    private User receiver;
+    private final int messageId;
+    private final User sender;
+    private final User receiver;
     private String content;
-    private Date date;
+    private final Date sentDate;
 
-    public Message() {
-        this.date = new Date();
-    }
-
-    public Message(User sender, User receiver, String content, Date date) {
+    public Message(int messageId, User sender, User receiver,
+                   String content, Date sentDate) {
+        this.messageId = messageId;
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
-        this.date = date;
+        this.sentDate = sentDate;
+    }
+
+    public int getMessageId() {
+        return messageId;
     }
 
     public User getSender() {
         return sender;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
     public User getReceiver() {
         return receiver;
-    }
-
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
     }
 
     public String getContent() {
@@ -44,21 +40,31 @@ public class Message {
         this.content = content;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getSentDate() {
+        return sentDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+        Message message = (Message) o;
+        return messageId == message.messageId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(messageId);
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "sender=" + sender.getFirstName() +
-                ", receiver=" + receiver.getFirstName() +
+                "messageId=" + messageId +
+                ", sender=" + sender.getFullName() +
+                ", receiver=" + receiver.getFullName() +
                 ", content='" + content + '\'' +
-                ", date=" + date +
+                ", sentDate=" + sentDate +
                 '}';
     }
 }

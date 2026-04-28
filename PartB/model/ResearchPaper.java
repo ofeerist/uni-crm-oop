@@ -1,30 +1,29 @@
 package PartB.model;
 
 import java.util.Date;
+import java.util.Objects;
 
-public class ResearchPaper {
+public class ResearchPaper implements Cloneable {
 
+    private final String id;
     private String title;
     private int citations;
     private int pages;
     private String doi;
-    private Date datePublished;
+    private Date publicationDate;
 
-    public ResearchPaper() {
-        this.datePublished = new Date();
-    }
-
-    public ResearchPaper(String title, int citations, int pages,
-                         String doi, Date datePublished) {
+    public ResearchPaper(String id, String title, int citations,
+                         int pages, String doi, Date publicationDate) {
+        this.id = id;
         this.title = title;
         this.citations = citations;
         this.pages = pages;
         this.doi = doi;
-        this.datePublished = datePublished;
+        this.publicationDate = publicationDate;
     }
 
-    public String getCitation(String format) {
-        return title + " (" + format + ")";
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -59,22 +58,49 @@ public class ResearchPaper {
         this.doi = doi;
     }
 
-    public Date getDatePublished() {
-        return datePublished;
+    public Date getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setDatePublished(Date datePublished) {
-        this.datePublished = datePublished;
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public String getCitation() {
+        return title + ", DOI: " + doi;
+    }
+
+    @Override
+    public ResearchPaper clone() {
+        try {
+            ResearchPaper copy = (ResearchPaper) super.clone();
+            copy.publicationDate = (Date) publicationDate.clone();
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResearchPaper)) return false;
+        ResearchPaper that = (ResearchPaper) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "ResearchPaper{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", citations=" + citations +
-                ", pages=" + pages +
                 ", doi='" + doi + '\'' +
-                ", datePublished=" + datePublished +
                 '}';
     }
 }

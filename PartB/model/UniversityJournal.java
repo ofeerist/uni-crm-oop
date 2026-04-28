@@ -3,7 +3,7 @@ package PartB.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Journal {
+public class UniversityJournal {
 
     private int journalId;
     private String name;
@@ -11,12 +11,12 @@ public class Journal {
     private List<ResearchPaper> papers;
     private List<User> subscribers;
 
-    public Journal() {
+    public UniversityJournal() {
         this.papers = new ArrayList<>();
         this.subscribers = new ArrayList<>();
     }
 
-    public Journal(int journalId, String name, String topic) {
+    public UniversityJournal(int journalId, String name, String topic) {
         this.journalId = journalId;
         this.name = name;
         this.topic = topic;

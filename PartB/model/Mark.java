@@ -1,22 +1,23 @@
 package PartB.model;
 
+import java.util.Objects;
+
 import PartB.enums.MarkType;
 
 public class Mark {
 
+    private final int markId;
     private double value;
     private MarkType markType;
 
-    public Mark() {
-    }
-
-    public Mark(double value, MarkType markType) {
+    public Mark(int markId, double value, MarkType markType) {
+        this.markId = markId;
         this.value = value;
         this.markType = markType;
     }
 
-    public double calculateTotal() {
-        return value;
+    public int getMarkId() {
+        return markId;
     }
 
     public double getValue() {
@@ -36,9 +37,23 @@ public class Mark {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mark)) return false;
+        Mark mark = (Mark) o;
+        return markId == mark.markId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(markId);
+    }
+
+    @Override
     public String toString() {
         return "Mark{" +
-                "value=" + value +
+                "markId=" + markId +
+                ", value=" + value +
                 ", markType=" + markType +
                 '}';
     }
