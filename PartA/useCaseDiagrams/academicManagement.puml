@@ -23,29 +23,19 @@ actor "Manager" as M
 
 rectangle "Academic Subsystem" {
     usecase "Register for Course" as Register
-    usecase "Check Prerequisites/Credits" as CheckCredits
-    usecase "Transcript" as Transcript
-    usecase "Course Management" as CourseMgmt
-    usecase "Course Pool" as CoursePool
-    usecase "Teacher / Student Info" as Info
-    usecase "Reports" as Reports
+    usecase "Approve Student Registration" as ApproveReg
+    usecase "Put Mark" as PutMark
+    usecase "View Transcript" as ViewTranscript
+    usecase "Assign Course to Teacher" as AssignCourse
+    usecase "Generate Academic Report" as GenerateReport
 
-    M -- Register : <<Open Course Registration>>
-    M -- Register : <<Approve Registration>>
-    M -- CoursePool : <<Add Course for Registration>>
-    M -- CourseMgmt : <<Assign Course to Teacher>>
-    M -- Reports : <<Create Report>>
-    M -- Info : <<View Student Info>>
-    M -- Info : <<View Teacher Info>>
+    M -- ApproveReg : <<ApproveStudentRegistrationCommand>>
+    M -- AssignCourse : <<AssignCourseToTeacherCommand>>
+    M -- GenerateReport : <<generateAcademicReport()>>
 
-    S -- Register : <<Register>>
-    Register <.. CheckCredits : <<include>>
-    S -- Transcript : <<View Transcript>>
-    S -- Transcript : <<View Marks>>
-    S -- Info : <<View Teacher Info>>
+    S -- Register : <<RegisterForCourseCommand>>
+    S -- ViewTranscript : <<ViewTranscriptCommand>>
 
-    T -- Transcript : <<Put Mark>>
-    T -- CourseMgmt : <<Manage Course>>
-    T -- Info : <<View Students>>
+    T -- PutMark : <<PutMarkCommand>>
 }
 @enduml
