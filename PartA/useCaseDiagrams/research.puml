@@ -17,19 +17,25 @@ skinparam usecase {
 
 left to right direction
 
-actor "Researcher" as R
+actor "User" as U
+actor "Researcher\n(Decorator)" as R
 
 rectangle "Research Subsystem" {
-    usecase "Research Projects" as ResearchProjects
-    usecase "Research Papers" as ResearchPapers
-    usecase "H-Index" as HIndex
-    usecase "Journals" as Journals
+    usecase "Become Researcher" as BecomeRes
+    usecase "Publish Paper" as Publish
+    usecase "Print My Papers" as PrintPapers
+    usecase "Calculate H-Index" as CalcHIndex
+    usecase "Subscribe to Journal" as Subscribe
+    usecase "Get Citation" as GetCitation
+    usecase "View Top Researcher" as ViewTop
 
-    R -- ResearchProjects : <<Create Research Project>>
-    R -- ResearchProjects : <<Join Research Project>>
-    R -- ResearchPapers : <<Create Research Paper>>
-    R -- ResearchPapers : <<Print Papers>>
-    R -- HIndex : <<Calculate H-Index>>
-    R -- Journals : <<Subscribe to Journal>>
+    U -- BecomeRes : <<becomeResearcher()>>
+    U -- Subscribe : <<SubscribeToJournalCommand>>
+    U -- GetCitation : <<GetCitationCommand>>
+    U -- ViewTop : <<ViewTopResearcherCommand>>
+
+    R -- Publish : <<PublishPaperCommand>>
+    R -- PrintPapers : <<PrintMyPapersCommand>>
+    R -- CalcHIndex : <<calculateHIndex()>>
 }
 @enduml

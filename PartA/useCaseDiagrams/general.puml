@@ -17,20 +17,14 @@ skinparam usecase {
 
 left to right direction
 
-actor "User" as U
-actor "Manager" as M
+actor "Employee" as E
 actor "Teacher" as T
 
 rectangle "Communication Subsystem" {
-    usecase "Messages" as Messages
-    usecase "News" as News
+    usecase "Send Message" as SendMsg
+    usecase "Send Complaint" as SendComp
 
-    U -- News : <<View News>>
-    U -- Messages : <<Send Message>>
-    U -- Messages : <<View Messages>>
-
-    M -- News : <<Manage News>>
-
-    T -- Messages : <<Send Message>>
+    E -- SendMsg : <<SendMessageCommand>>
+    T -- SendComp : <<SendComplaintCommand>>
 }
 @enduml
