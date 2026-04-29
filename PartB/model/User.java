@@ -15,8 +15,6 @@ public abstract class User {
     private String phoneNumber;
     private final Date registrationDate;
 
-    private final List<Message> inbox;
-    private final List<Message> sentMessages;
 
     public User(int id, String firstName, String lastName, String email,
                 String password, String phoneNumber, Date registrationDate) {
@@ -28,9 +26,6 @@ public abstract class User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.registrationDate = registrationDate;
-
-        this.inbox = new ArrayList<>();
-        this.sentMessages = new ArrayList<>();
     }
 
     public int getId() {
@@ -83,14 +78,6 @@ public abstract class User {
 
     public Date getRegistrationDate() {
         return registrationDate;
-    }
-
-    public List<Message> getInbox() {
-        return inbox;
-    }
-
-    public List<Message> getSentMessages() {
-        return sentMessages;
     }
 
     @Override
