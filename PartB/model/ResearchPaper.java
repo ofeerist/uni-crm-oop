@@ -15,8 +15,8 @@ public class ResearchPaper implements Cloneable, Comparable<ResearchPaper> {
     private int pages;
     private String doi;
     private Date publicationDate;
-    private List<String> authors;   // NEW: list of author names
-    private String journalName;     // NEW: journal / conference name
+    private List<String> authors; 
+    private String journalName;     
 
     public ResearchPaper(String id, String title, int citations,
                          int pages, String doi, Date publicationDate) {
