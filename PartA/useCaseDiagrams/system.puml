@@ -17,24 +17,17 @@ skinparam usecase {
 
 left to right direction
 
-actor "Admin" as A
-actor "TechSupporter" as TS
-actor "Manager" as M
+actor "User" as U
+actor "TechSupportSpecialist" as TSS
 
-rectangle "Admin & Support Subsystem" {
-    usecase "User Management" as UserMgmt
-    usecase "Logs" as Logs
-    usecase "Requests" as Requests
+rectangle "Tech Support Subsystem" {
+    usecase "Create Tech Request" as CreateReq
+    usecase "View New Requests" as ViewReqs
+    usecase "Change Request Status" as ChangeStatus
 
-    A -- UserMgmt : <<Add User>>
-    A -- UserMgmt : <<Update User>>
-    A -- UserMgmt : <<Remove User>>
-    A -- Logs : <<View Logs>>
-
-    TS -- Requests : <<Accept Request>>
-    TS -- Requests : <<Reject Request>>
-    TS -- Requests : <<Mark Request as Done>>
+    U -- CreateReq : <<createRequest()>>
     
-    M -- Requests : <<View Requests>>
+    TSS -- ViewReqs : <<ViewNewRequestsCommand>>
+    TSS -- ChangeStatus : <<ChangeRequestStatusCommand>>
 }
 @enduml
