@@ -1,0 +1,9 @@
+{
+    "java.project.sourcePaths": [
+        ".",
+        "Backend\\src"
+    ],
+    "java.project.referencedLibraries": [
+        "c:\\Users\\Artyom Knyazev\\uni-crm-oop\\lib\\gson-2.10.1.jar"
+    ]
+}
