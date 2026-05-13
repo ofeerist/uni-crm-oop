@@ -1,5 +1,15 @@
 {
-  "students": [],
+  "students": [
+    {
+      "yearOfStudy": 0,
+      "currentCredits": 0,
+      "failCount": 0,
+      "id": "6fb96131-5c1c-4700-8b49-ac04784a6ee9",
+      "username": "Artyom",
+      "password": "1234",
+      "preferredLanguage": "EN"
+    }
+  ],
   "teachers": [],
   "managers": [
     {
