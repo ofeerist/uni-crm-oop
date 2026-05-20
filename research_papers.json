@@ -1,0 +1,21 @@
+[
+  {
+    "id": "2b4e4337-9f02-47fb-9e78-b739e7acd8c5",
+    "title": "dsadas",
+    "paperAbstract": "ghfdgfd",
+    "authorUsername": "teacher",
+    "citedPaperIds": [],
+    "citations": 1
+  },
+  {
+    "id": "ec075b2e-9896-4e51-b53c-d39d4ea82880",
+    "title": "ITsh",
+    "paperAbstract": "dsadsadsad",
+    "authorUsername": "admin",
+    "journalName": "ITNews",
+    "citedPaperIds": [
+      "2b4e4337-9f02-47fb-9e78-b739e7acd8c5"
+    ],
+    "citations": 0
+  }
+]

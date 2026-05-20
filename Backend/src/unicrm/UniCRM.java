@@ -121,7 +121,8 @@ public class UniCRM {
         AcademicService academicService = new AcademicService(userRepository, courseRepository);
         CommunicationService communicationService = new CommunicationService(
                 new MessageRepository(), new ComplaintRepository(), userRepository);
-        ResearchService researchService = new ResearchService(new ResearchPaperRepository());
+        JournalRepository journalRepository = new JournalRepository();
+        ResearchService researchService = new ResearchService(new ResearchPaperRepository(), journalRepository);
         NewsService newsService = new NewsService(new NewsRepository());
 
         UserSession userSession = UserSession.getInstance();
@@ -161,7 +162,9 @@ public class UniCRM {
         PublishNewsCommand publishNewsCmd =
                 new PublishNewsCommand(newsService, userSession, scanner);
         SubscribeToJournalCommand subscribeJournalCmd =
-                new SubscribeToJournalCommand(userSession, scanner);
+                new SubscribeToJournalCommand(journalRepository, userRepository, userSession, scanner);
+        CreateJournalCommand createJournalCmd =
+                new CreateJournalCommand(researchService, userSession, scanner);
         PublishPaperCommand publishPaperCmd =
                 new PublishPaperCommand(researchService, userSession, scanner);
         PrintMyPapersCommand printMyPapersCmd =
@@ -203,6 +206,7 @@ public class UniCRM {
         managerCommands.put("15", sendTechRequestCmd::execute);
         managerCommands.put("16", researcherOrBecomeCmd);
         managerCommands.put("17", myPapersIfResearcher);
+        managerCommands.put("18", createJournalCmd::execute);
         managerCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> studentCommands = new HashMap<>();
@@ -349,6 +353,7 @@ public class UniCRM {
             menu.put("15", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
             menu.put("16", localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
             if (isResearcher) menu.put("17", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            menu.put("18", localization.get(LocalizationKey.MENU_CREATE_JOURNAL));
         } else if (effectiveUser instanceof Student) {
             menu.put("1", localization.get(LocalizationKey.MENU_REGISTER_COURSE));
             menu.put("2", localization.get(LocalizationKey.MENU_REGISTER_OFFERING));

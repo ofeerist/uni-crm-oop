@@ -1,5 +1,7 @@
 package unicrm.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,6 +10,8 @@ public class ResearchPaper {
     private String title;
     private String paperAbstract;
     private String authorUsername;
+    private String journalName;
+    private List<String> citedPaperIds = new ArrayList<>();
     private int citations;
 
     public ResearchPaper() {
@@ -34,6 +38,15 @@ public class ResearchPaper {
     public String getAuthorUsername() { return authorUsername; }
     public void setAuthorUsername(String authorUsername) { this.authorUsername = authorUsername; }
 
+    public String getJournalName() { return journalName; }
+    public void setJournalName(String journalName) { this.journalName = journalName; }
+
+    public List<String> getCitedPaperIds() {
+        if (citedPaperIds == null) citedPaperIds = new ArrayList<>();
+        return citedPaperIds;
+    }
+    public void setCitedPaperIds(List<String> citedPaperIds) { this.citedPaperIds = citedPaperIds; }
+
     public int getCitations() { return citations; }
     public void setCitations(int citations) { this.citations = citations; }
 
@@ -49,7 +62,7 @@ public class ResearchPaper {
 
     @Override
     public String toString() {
-        return "ResearchPaper{title='" + title + "', author='" + authorUsername
-                + "', citations=" + citations + "}";
+        return "ResearchPaper{title='" + title + "', journal='" + journalName
+                + "', author='" + authorUsername + "', citations=" + citations + "}";
     }
 }

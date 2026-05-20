@@ -39,7 +39,8 @@ public class PrintMyPapersCommand {
 
         for (int i = 0; i < papers.size(); i++) {
             ResearchPaper p = papers.get(i);
-            System.out.printf("%d. %s [citations: %d]%n", i + 1, p.getTitle(), p.getCitations());
+            String journal = p.getJournalName() != null ? " [" + p.getJournalName() + "]" : "";
+            System.out.printf("%d. %s%s [citations: %d]%n", i + 1, p.getTitle(), journal, p.getCitations());
             System.out.println("   " + p.getPaperAbstract());
         }
     }

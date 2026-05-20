@@ -136,6 +136,17 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.OFFERING_CREATED, "Course offering created successfully.");
         messages.put(LocalizationKey.SCHEDULE_HEADER, "--- Generated schedule ---");
         messages.put(LocalizationKey.LESSON_FORMAT, "%s | %s | Room: %s");
+
+        messages.put(LocalizationKey.MENU_CREATE_JOURNAL, "Create journal");
+        messages.put(LocalizationKey.JOURNAL_CREATED, "Journal '%s' created successfully.");
+        messages.put(LocalizationKey.NO_JOURNALS_FOUND, "No journals found.");
+        messages.put(LocalizationKey.JOURNAL_ALREADY_EXISTS, "A journal with this name already exists.");
+        messages.put(LocalizationKey.PAPER_SELECT_JOURNAL, "Select a journal to publish in:");
+        messages.put(LocalizationKey.PAPER_SELECT_CITATIONS, "Select cited papers (comma-separated numbers, or Enter to skip):");
+        messages.put(LocalizationKey.ALL_PAPERS_HEADER, "--- All papers ---");
+        messages.put(LocalizationKey.SELECT_PAPER, "Select paper: ");
+        messages.put(LocalizationKey.SELECT_JOURNAL, "Enter journal number: ");
+        messages.put(LocalizationKey.JOURNAL_SUBSCRIBE_HEADER, "Select a journal to subscribe to:");
     }
     @Override
     public Language language() {

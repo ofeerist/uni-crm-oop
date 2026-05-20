@@ -136,6 +136,17 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.OFFERING_CREATED, "Курсовое предложение успешно создано.");
         messages.put(LocalizationKey.SCHEDULE_HEADER, "--- Сгенерированное расписание ---");
         messages.put(LocalizationKey.LESSON_FORMAT, "%s | %s | Аудитория: %s");
+
+        messages.put(LocalizationKey.MENU_CREATE_JOURNAL, "Создать журнал");
+        messages.put(LocalizationKey.JOURNAL_CREATED, "Журнал '%s' успешно создан.");
+        messages.put(LocalizationKey.NO_JOURNALS_FOUND, "Журналы не найдены.");
+        messages.put(LocalizationKey.JOURNAL_ALREADY_EXISTS, "Журнал с таким названием уже существует.");
+        messages.put(LocalizationKey.PAPER_SELECT_JOURNAL, "Выберите журнал для публикации:");
+        messages.put(LocalizationKey.PAPER_SELECT_CITATIONS, "Выберите цитируемые статьи (номера через запятую, или Enter чтобы пропустить):");
+        messages.put(LocalizationKey.ALL_PAPERS_HEADER, "--- Все статьи ---");
+        messages.put(LocalizationKey.SELECT_PAPER, "Выберите статью: ");
+        messages.put(LocalizationKey.SELECT_JOURNAL, "Введите номер журнала: ");
+        messages.put(LocalizationKey.JOURNAL_SUBSCRIBE_HEADER, "Выберите журнал для подписки:");
     }
     @Override
     public Language language() {
