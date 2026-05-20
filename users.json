@@ -10,7 +10,15 @@
       "preferredLanguage": "EN"
     }
   ],
-  "teachers": [],
+  "teachers": [
+    {
+      "averageRating": 0.0,
+      "id": "a93d5ae0-cdf4-499d-a45b-c4c2148ac89e",
+      "username": "teacher",
+      "password": "teacher",
+      "preferredLanguage": "EN"
+    }
+  ],
   "managers": [
     {
       "type": "OR",

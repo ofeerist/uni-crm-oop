@@ -2,7 +2,8 @@ package unicrm.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import unicrm.domain.Room;
+import unicrm.domain.News;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,13 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class RoomRepository implements IRepository<Room, String> {
+public class NewsRepository implements IRepository<News, String> {
 
-    private List<Room> rooms = new ArrayList<>();
-    private final String fileName = "rooms.json";
+    private List<News> newsList = new ArrayList<>();
+    private final String fileName = "news.json";
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public RoomRepository() {
+    public NewsRepository() {
         load();
     }
 
@@ -27,9 +28,9 @@ public class RoomRepository implements IRepository<Room, String> {
             Path path = Paths.get(fileName);
             if (Files.exists(path)) {
                 String json = Files.readString(path);
-                Room[] loaded = gson.fromJson(json, Room[].class);
+                News[] loaded = gson.fromJson(json, News[].class);
                 if (loaded != null) {
-                    rooms = new ArrayList<>(Arrays.asList(loaded));
+                    newsList = new ArrayList<>(Arrays.asList(loaded));
                 }
             }
         } catch (IOException e) {
@@ -39,7 +40,7 @@ public class RoomRepository implements IRepository<Room, String> {
 
     private void saveToFile() {
         try {
-            String json = gson.toJson(rooms);
+            String json = gson.toJson(newsList);
             Files.writeString(Paths.get(fileName), json);
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,33 +48,29 @@ public class RoomRepository implements IRepository<Room, String> {
     }
 
     @Override
-    public void save(Room entity) {
-        if (entity == null || entity.getId() == null) {
-            return;
-        }
-
+    public void save(News entity) {
+        if (entity == null || entity.getId() == null) return;
         delete(entity.getId());
-        rooms.add(entity);
+        newsList.add(entity);
         saveToFile();
     }
 
     @Override
-    public Room findById(String id) {
-        return rooms
-                .stream()
-                .filter(room -> Objects.equals(room.getId(), id))
+    public News findById(String id) {
+        return newsList.stream()
+                .filter(n -> Objects.equals(n.getId(), id))
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
-    public List<Room> findAll() {
-        return new ArrayList<>(rooms);
+    public List<News> findAll() {
+        return new ArrayList<>(newsList);
     }
 
     @Override
     public void delete(String id) {
-        rooms.removeIf(room -> Objects.equals(room.getId(), id));
+        newsList.removeIf(n -> Objects.equals(n.getId(), id));
         saveToFile();
     }
 }

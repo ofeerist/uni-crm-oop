@@ -1,45 +1,64 @@
 package unicrm.command;
+
 import unicrm.domain.Employee;
 import unicrm.domain.User;
+import unicrm.localization.LocalizationKey;
+import unicrm.localization.LocalizationService;
 import unicrm.repository.UserRepository;
 import unicrm.service.CommunicationService;
 import unicrm.session.UserSession;
-import java.util.List;
+
+import java.util.Scanner;
 
 public class SendMessageCommand {
 
     private final CommunicationService communicationService;
     private final UserRepository userRepo;
     private final UserSession userSession;
+    private final Scanner scanner;
+    private final LocalizationService localization = LocalizationService.getInstance();
 
     public SendMessageCommand(
             CommunicationService communicationService,
             UserRepository userRepo,
-            UserSession userSession
+            UserSession userSession,
+            Scanner scanner
     ) {
         this.communicationService = communicationService;
         this.userRepo = userRepo;
         this.userSession = userSession;
+        this.scanner = scanner;
     }
 
     public void execute() {
         User currentUser = userSession.getCurrentUser();
         if (!(currentUser instanceof Employee sender)) {
-            System.out.println("Only employees can send messages.");
+            System.out.println(localization.get(LocalizationKey.ACCESS_DENIED));
             return;
         }
-        List<User> users = userRepo.findAll();
-        for (User user : users) {
-            if (user instanceof Employee receiver && receiver != sender) {
-                communicationService.sendMessage(
-                        sender,
-                        receiver,
-                        "Hello from system"
-                );
-                System.out.println("Message sent.");
-                return;
-            }
+
+        System.out.print(localization.get(LocalizationKey.ENTER_RECEIVER_ID));
+        String receiverUsername = scanner.nextLine().trim();
+
+        System.out.print(localization.get(LocalizationKey.ENTER_MESSAGE_CONTENT));
+        String content = scanner.nextLine();
+
+        User found = userRepo.findAll().stream()
+                .filter(u -> u.getUsername().equals(receiverUsername))
+                .findFirst()
+                .orElse(null);
+
+        if (found == null || !(found instanceof Employee receiver)) {
+            System.out.println(localization.get(LocalizationKey.RECEIVER_NOT_FOUND));
+            return;
         }
-        System.out.println("No employee receiver found.");
+
+        if (receiver.equals(sender)) {
+            System.out.println(localization.get(LocalizationKey.RECEIVER_NOT_FOUND));
+            return;
+        }
+
+        communicationService.sendMessage(sender, receiver, content);
+        System.out.println(localization.get(LocalizationKey.MESSAGE_SENT_SUCCESS));
     }
 }

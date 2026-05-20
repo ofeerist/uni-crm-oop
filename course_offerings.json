@@ -1,0 +1,23 @@
+[
+  {
+    "course": {
+      "courseId": "MDS3213",
+      "name": "OOP",
+      "credits": 6,
+      "category": "MAJOR"
+    },
+    "semester": {
+      "season": "FALL",
+      "year": 2026
+    },
+    "instructor": {
+      "averageRating": 0.0,
+      "id": "a93d5ae0-cdf4-499d-a45b-c4c2148ac89e",
+      "username": "teacher",
+      "password": "teacher",
+      "preferredLanguage": "EN"
+    },
+    "capacity": 50,
+    "lessons": []
+  }
+]

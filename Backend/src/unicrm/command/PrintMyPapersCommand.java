@@ -1,0 +1,43 @@
+package unicrm.command;
+
+import unicrm.domain.ResearchPaper;
+import unicrm.domain.User;
+import unicrm.localization.LocalizationKey;
+import unicrm.localization.LocalizationService;
+import unicrm.service.ResearchService;
+import unicrm.session.UserSession;
+
+import java.util.List;
+
+public class PrintMyPapersCommand {
+
+    private final ResearchService researchService;
+    private final UserSession userSession;
+    private final LocalizationService localization = LocalizationService.getInstance();
+
+    public PrintMyPapersCommand(ResearchService researchService, UserSession userSession) {
+        this.researchService = researchService;
+        this.userSession = userSession;
+    }
+
+    public void execute() {
+        User currentUser = userSession.getCurrentUser();
+        if (currentUser == null) {
+            System.out.println(localization.get(LocalizationKey.ACCESS_DENIED));
+            return;
+        }
+
+        List<ResearchPaper> papers = researchService.getPapersForUser(currentUser.getUsername());
+
+        if (papers.isEmpty()) {
+            System.out.println(localization.get(LocalizationKey.NO_PAPERS_FOUND));
+            return;
+        }
+
+        for (int i = 0; i < papers.size(); i++) {
+            ResearchPaper p = papers.get(i);
+            System.out.printf("%d. %s [citations: %d]%n", i + 1, p.getTitle(), p.getCitations());
+            System.out.println("   " + p.getPaperAbstract());
+        }
+    }
+}
