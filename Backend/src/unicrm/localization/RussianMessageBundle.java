@@ -24,8 +24,8 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.LIMITED_UI_ROLE, "Вы вошли как %s. Консольный интерфейс для этой роли ограничен.");
         messages.put(LocalizationKey.PRESS_ENTER_TO_LOGOUT, "Нажмите Enter для выхода из учетной записи...");
         messages.put(LocalizationKey.ADMIN_MENU_TITLE, "Меню администратора:");
-        messages.put(LocalizationKey.ADMIN_MENU_ADD_USER, "1. Добавить нового пользователя");
-        messages.put(LocalizationKey.ADMIN_MENU_LOGOUT, "2. Выйти из учетной записи");
+        messages.put(LocalizationKey.ADMIN_MENU_ADD_USER, "Добавить нового пользователя");
+        messages.put(LocalizationKey.ADMIN_MENU_LOGOUT, "Выйти из учетной записи");
         messages.put(LocalizationKey.SESSION_CLOSED, "Сессия завершена.");
         messages.put(LocalizationKey.ENTER_ROLE, "Укажите роль (Student / Teacher / Manager): ");
         messages.put(LocalizationKey.ENTER_USERNAME, "Введите имя пользователя: ");
@@ -113,6 +113,14 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.NO_REQUESTS_FOUND, "Запросов не найдено.");
 
         messages.put(LocalizationKey.H_INDEX_LABEL, "H-индекс: %d");
+
+        messages.put(LocalizationKey.COMPLAINT_SELECT_STUDENT, "Выберите студента:");
+        messages.put(LocalizationKey.ENTER_STUDENT_NUMBER, "Введите номер студента: ");
+        messages.put(LocalizationKey.NO_STUDENTS_FOUND, "Студенты не найдены.");
+        messages.put(LocalizationKey.COMPLAINT_SELECT_URGENCY, "Выберите степень нарушения:");
+        messages.put(LocalizationKey.COMPLAINT_ENTER_REASON, "Введите описание нарушения: ");
+        messages.put(LocalizationKey.COMPLAINT_SENT, "Жалоба успешно отправлена.");
+        messages.put(LocalizationKey.INVALID_CHOICE, "Неверный выбор.");
     }
     @Override
     public Language language() {

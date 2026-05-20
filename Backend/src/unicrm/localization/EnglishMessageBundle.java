@@ -24,8 +24,8 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.LIMITED_UI_ROLE, "You are logged in as %s. The console interface for this role is limited.");
         messages.put(LocalizationKey.PRESS_ENTER_TO_LOGOUT, "Press Enter to log out...");
         messages.put(LocalizationKey.ADMIN_MENU_TITLE, "Administrator menu:");
-        messages.put(LocalizationKey.ADMIN_MENU_ADD_USER, "1. Add a new user");
-        messages.put(LocalizationKey.ADMIN_MENU_LOGOUT, "2. Log out");
+        messages.put(LocalizationKey.ADMIN_MENU_ADD_USER, "Add a new user");
+        messages.put(LocalizationKey.ADMIN_MENU_LOGOUT, "Log out");
         messages.put(LocalizationKey.SESSION_CLOSED, "Session has been closed.");
         messages.put(LocalizationKey.ENTER_ROLE, "Enter role (Student / Teacher / Manager): ");
         messages.put(LocalizationKey.ENTER_USERNAME, "Enter username: ");
@@ -113,6 +113,14 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.NO_REQUESTS_FOUND, "No requests found.");
 
         messages.put(LocalizationKey.H_INDEX_LABEL, "H-Index: %d");
+
+        messages.put(LocalizationKey.COMPLAINT_SELECT_STUDENT, "Select a student:");
+        messages.put(LocalizationKey.ENTER_STUDENT_NUMBER, "Enter student number: ");
+        messages.put(LocalizationKey.NO_STUDENTS_FOUND, "No students found.");
+        messages.put(LocalizationKey.COMPLAINT_SELECT_URGENCY, "Select violation severity:");
+        messages.put(LocalizationKey.COMPLAINT_ENTER_REASON, "Enter violation description: ");
+        messages.put(LocalizationKey.COMPLAINT_SENT, "Complaint sent successfully.");
+        messages.put(LocalizationKey.INVALID_CHOICE, "Invalid choice.");
     }
     @Override
     public Language language() {

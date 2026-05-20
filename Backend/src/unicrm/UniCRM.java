@@ -140,7 +140,7 @@ public class UniCRM {
         RegisterForOfferingCommand regOfferingCmd =
                 new RegisterForOfferingCommand(enrollmentService, offeringRepository, userSession);
         SendComplaintCommand sendComplaintCmd =
-                new SendComplaintCommand(communicationService, userRepository, userSession);
+                new SendComplaintCommand(communicationService, userRepository, userSession, scanner);
         SendMessageCommand sendMsgCmd =
                 new SendMessageCommand(communicationService, userRepository, userSession, scanner);
         ViewMessagesCommand viewMsgsCmd =

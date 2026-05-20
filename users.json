@@ -7,16 +7,26 @@
       "id": "6fb96131-5c1c-4700-8b49-ac04784a6ee9",
       "username": "Artyom",
       "password": "1234",
-      "preferredLanguage": "EN"
+      "preferredLanguage": "EN",
+      "isResearcher": false
     }
   ],
   "teachers": [
     {
       "averageRating": 0.0,
+      "id": "83beb025-80d8-4327-a3b1-0e2591fe9152",
+      "username": "teacher1",
+      "password": "teacher",
+      "preferredLanguage": "EN",
+      "isResearcher": false
+    },
+    {
+      "averageRating": 0.0,
       "id": "a93d5ae0-cdf4-499d-a45b-c4c2148ac89e",
       "username": "teacher",
       "password": "teacher",
-      "preferredLanguage": "EN"
+      "preferredLanguage": "EN",
+      "isResearcher": true
     }
   ],
   "managers": [
@@ -25,7 +35,8 @@
       "id": "a0a4081c-9286-461e-94dc-f993188d3e4a",
       "username": "admin",
       "password": "admin",
-      "preferredLanguage": "EN"
+      "preferredLanguage": "EN",
+      "isResearcher": false
     }
   ]
 }

@@ -7,8 +7,8 @@ public class Complaint {
     private String id;
     private String reason;
     private UrgencyLevel urgency;
-    private Teacher author;
-    private Student accusedStudent;
+    private String teacherId;
+    private String studentId;
     private Date creationDate;
 
     public Complaint() {
@@ -26,12 +26,12 @@ public class Complaint {
         return urgency;
     }
 
-    public Teacher getAuthor() {
-        return author;
+    public String getTeacherId() {
+        return teacherId;
     }
 
-    public Student getAccusedStudent() {
-        return accusedStudent;
+    public String getStudentId() {
+        return studentId;
     }
 
     public Date getCreationDate() {
@@ -50,12 +50,12 @@ public class Complaint {
         this.urgency = urgency;
     }
 
-    public void setAuthor(Teacher author) {
-        this.author = author;
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
     }
 
-    public void setAccusedStudent(Student accusedStudent) {
-        this.accusedStudent = accusedStudent;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public void setCreationDate(Date creationDate) {
@@ -81,8 +81,8 @@ public class Complaint {
                 "id='" + id + '\'' +
                 ", reason='" + reason + '\'' +
                 ", urgency=" + urgency +
-                ", author=" + (author != null ? author.getUsername() : null) +
-                ", accusedStudent=" + (accusedStudent != null ? accusedStudent.getUsername() : null) +
+                ", teacherId='" + teacherId + '\'' +
+                ", studentId='" + studentId + '\'' +
                 ", creationDate=" + creationDate +
                 '}';
     }

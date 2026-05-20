@@ -21,7 +21,7 @@ public class TechSupportService {
     public void createRequest(User author, String description) {
         TechRequest request = new TechRequest();
         request.setId(UUID.randomUUID().toString());
-        request.setAuthor(author);
+        request.setAuthorId(author.getId());
         request.setDescription(description);
         request.setStatus(RequestStatus.NEW);
         request.setCreationDate(new Date());

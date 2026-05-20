@@ -7,7 +7,7 @@ public class TechRequest {
     private String id;
     private String description;
     private RequestStatus status;
-    private User author;
+    private String authorId;
     private TechSupportSpecialist executor;
     private Date creationDate;
 
@@ -26,8 +26,8 @@ public class TechRequest {
         return status;
     }
 
-    public User getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public TechSupportSpecialist getExecutor() {
@@ -50,8 +50,8 @@ public class TechRequest {
         this.status = status;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public void setExecutor(TechSupportSpecialist executor) {
@@ -81,7 +81,7 @@ public class TechRequest {
                 "id='" + id + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
-                ", author=" + (author != null ? author.getUsername() : null) +
+                ", authorId='" + authorId + '\'' +
                 ", executor=" + (executor != null ? executor.getUsername() : null) +
                 ", creationDate=" + creationDate +
                 '}';

@@ -67,15 +67,12 @@ public class CommunicationService {
                               String reason) {
         Complaint complaint = new Complaint();
         complaint.setId(UUID.randomUUID().toString());
-        complaint.setAuthor(teacher);
-        complaint.setAccusedStudent(student);
+        complaint.setTeacherId(teacher.getId());
+        complaint.setStudentId(student.getId());
         complaint.setUrgency(urgencyLevel);
         complaint.setReason(reason);
         complaint.setCreationDate(new Date());
 
-        teacher.getComplaintsFiled().add(complaint);
-
         complaintRepo.save(complaint);
-        userRepo.save(teacher);
     }
 }
