@@ -121,6 +121,21 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.COMPLAINT_ENTER_REASON, "Введите описание нарушения: ");
         messages.put(LocalizationKey.COMPLAINT_SENT, "Жалоба успешно отправлена.");
         messages.put(LocalizationKey.INVALID_CHOICE, "Неверный выбор.");
+
+        messages.put(LocalizationKey.MENU_CHANGE_LANGUAGE, "Сменить язык интерфейса");
+
+        messages.put(LocalizationKey.OFFERING_SELECT_COURSE, "Выберите курс:");
+        messages.put(LocalizationKey.OFFERING_SELECT_TEACHER, "Выберите преподавателя:");
+        messages.put(LocalizationKey.ENTER_OFFERING_CAPACITY, "Введите вместимость группы: ");
+        messages.put(LocalizationKey.ENTER_SEMESTER_SEASON, "Введите сезон (FALL / SPRING / SUMMER): ");
+        messages.put(LocalizationKey.ENTER_SEMESTER_YEAR, "Введите год: ");
+        messages.put(LocalizationKey.SEMESTER_NOT_FOUND, "Семестр не найден. Сначала создайте семестр.");
+        messages.put(LocalizationKey.NO_COURSES_FOUND, "Курсы не найдены.");
+        messages.put(LocalizationKey.NO_TEACHERS_FOUND, "Преподаватели не найдены.");
+        messages.put(LocalizationKey.NO_ROOMS_FOUND, "Аудитории не найдены. Добавьте аудитории перед созданием расписания.");
+        messages.put(LocalizationKey.OFFERING_CREATED, "Курсовое предложение успешно создано.");
+        messages.put(LocalizationKey.SCHEDULE_HEADER, "--- Сгенерированное расписание ---");
+        messages.put(LocalizationKey.LESSON_FORMAT, "%s | %s | Аудитория: %s");
     }
     @Override
     public Language language() {

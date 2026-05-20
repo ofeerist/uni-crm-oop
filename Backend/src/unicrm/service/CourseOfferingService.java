@@ -30,4 +30,8 @@ public class CourseOfferingService {
         offeringRepository.save(offering);
         return offering;
     }
+
+    public void save(CourseOffering offering) {
+        offeringRepository.save(offering);
+    }
 }

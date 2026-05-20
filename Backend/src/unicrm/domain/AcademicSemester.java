@@ -6,6 +6,8 @@ public class AcademicSemester {
     private Season season;
     private int year;
 
+    public AcademicSemester() {}
+
     public AcademicSemester(Season season, int year) {
         this.season = season;
         this.year = year;

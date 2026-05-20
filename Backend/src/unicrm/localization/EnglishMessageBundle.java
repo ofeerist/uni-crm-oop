@@ -121,6 +121,21 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.COMPLAINT_ENTER_REASON, "Enter violation description: ");
         messages.put(LocalizationKey.COMPLAINT_SENT, "Complaint sent successfully.");
         messages.put(LocalizationKey.INVALID_CHOICE, "Invalid choice.");
+
+        messages.put(LocalizationKey.MENU_CHANGE_LANGUAGE, "Change interface language");
+
+        messages.put(LocalizationKey.OFFERING_SELECT_COURSE, "Select a course:");
+        messages.put(LocalizationKey.OFFERING_SELECT_TEACHER, "Select a teacher:");
+        messages.put(LocalizationKey.ENTER_OFFERING_CAPACITY, "Enter group capacity: ");
+        messages.put(LocalizationKey.ENTER_SEMESTER_SEASON, "Enter season (FALL / SPRING / SUMMER): ");
+        messages.put(LocalizationKey.ENTER_SEMESTER_YEAR, "Enter year: ");
+        messages.put(LocalizationKey.SEMESTER_NOT_FOUND, "Semester not found. Create a semester first.");
+        messages.put(LocalizationKey.NO_COURSES_FOUND, "No courses found.");
+        messages.put(LocalizationKey.NO_TEACHERS_FOUND, "No teachers found.");
+        messages.put(LocalizationKey.NO_ROOMS_FOUND, "No rooms found. Add rooms before creating a schedule.");
+        messages.put(LocalizationKey.OFFERING_CREATED, "Course offering created successfully.");
+        messages.put(LocalizationKey.SCHEDULE_HEADER, "--- Generated schedule ---");
+        messages.put(LocalizationKey.LESSON_FORMAT, "%s | %s | Room: %s");
     }
     @Override
     public Language language() {

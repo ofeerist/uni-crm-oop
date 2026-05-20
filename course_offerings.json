@@ -12,12 +12,36 @@
     },
     "instructor": {
       "averageRating": 0.0,
-      "id": "a93d5ae0-cdf4-499d-a45b-c4c2148ac89e",
-      "username": "teacher",
+      "id": "83beb025-80d8-4327-a3b1-0e2591fe9152",
+      "username": "teacher1",
       "password": "teacher",
-      "preferredLanguage": "EN"
+      "preferredLanguage": "EN",
+      "isResearcher": false
     },
     "capacity": 50,
-    "lessons": []
+    "lessons": [
+      {
+        "id": "e6d7b776-9bfd-430a-934d-e5526dde6d0d",
+        "room": {
+          "id": "f7307ab5-8796-4959-ae2e-d3694d817cac",
+          "name": "201",
+          "capacity": 50,
+          "type": "LECTURE"
+        },
+        "type": "LECTURE",
+        "timeSlot": "MON 08:00"
+      },
+      {
+        "id": "607752fd-c598-4a79-a553-6c89b390a579",
+        "room": {
+          "id": "f7307ab5-8796-4959-ae2e-d3694d817cac",
+          "name": "201",
+          "capacity": 50,
+          "type": "LECTURE"
+        },
+        "type": "PRACTICE",
+        "timeSlot": "TUE 08:00"
+      }
+    ]
   }
 ]

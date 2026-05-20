@@ -10,6 +10,10 @@ public class CourseOffering {
     private int capacity;
     private List<Lesson> lessons;
 
+    public CourseOffering() {
+        this.lessons = new ArrayList<>();
+    }
+
     public CourseOffering(Course course, AcademicSemester semester, Teacher instructor, int capacity) {
         this.course = course;
         this.semester = semester;
