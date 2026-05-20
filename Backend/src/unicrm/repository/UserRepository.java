@@ -2,6 +2,7 @@ package unicrm.repository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import unicrm.domain.Manager;
+import unicrm.domain.ResearcherDecorator;
 import unicrm.domain.Student;
 import unicrm.domain.Teacher;
 import unicrm.domain.User;
@@ -46,12 +47,14 @@ public class UserRepository implements IRepository<User, String> {
         if (entity == null || entity.getId() == null) {
             return;
         }
-        delete(entity.getId());
-        if (entity instanceof Student student) {
+
+        User toSave = (entity instanceof ResearcherDecorator rd) ? rd.getBaseUser() : entity;
+        delete(toSave.getId());
+        if (toSave instanceof Student student) {
             data.getStudents().add(student);
-        } else if (entity instanceof Teacher teacher) {
+        } else if (toSave instanceof Teacher teacher) {
             data.getTeachers().add(teacher);
-        } else if (entity instanceof Manager manager) {
+        } else if (toSave instanceof Manager manager) {
             data.getManagers().add(manager);
         }
         saveToFile();

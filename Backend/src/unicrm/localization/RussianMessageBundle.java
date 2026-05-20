@@ -36,32 +36,27 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.ROLE_TEACHER, "Преподаватель");
         messages.put(LocalizationKey.ROLE_MANAGER, "Администратор");
 
-        // SendMessageCommand
         messages.put(LocalizationKey.ENTER_RECEIVER_ID, "Введите имя пользователя получателя: ");
         messages.put(LocalizationKey.ENTER_MESSAGE_CONTENT, "Введите текст сообщения: ");
         messages.put(LocalizationKey.MESSAGE_SENT_SUCCESS, "Сообщение успешно отправлено.");
         messages.put(LocalizationKey.RECEIVER_NOT_FOUND, "Получатель не найден.");
         messages.put(LocalizationKey.ACCESS_DENIED, "Доступ запрещён: недостаточно прав.");
 
-        // CreateCourseCommand
         messages.put(LocalizationKey.ENTER_COURSE_CODE, "Введите код курса: ");
         messages.put(LocalizationKey.ENTER_COURSE_NAME, "Введите название курса: ");
         messages.put(LocalizationKey.ENTER_CREDITS, "Введите количество кредитов: ");
         messages.put(LocalizationKey.SELECT_CATEGORY, "Выберите категорию (MAJOR / MINOR / FREE_ELECTIVE): ");
         messages.put(LocalizationKey.COURSE_CREATED, "Курс '%s' успешно создан.");
 
-        // AddRoomCommand
         messages.put(LocalizationKey.ENTER_ROOM_NAME, "Введите название/номер аудитории: ");
         messages.put(LocalizationKey.ENTER_CAPACITY, "Введите вместимость аудитории: ");
         messages.put(LocalizationKey.SELECT_ROOM_TYPE, "Выберите тип аудитории (LECTURE / PRACTICE / LAB): ");
         messages.put(LocalizationKey.ROOM_ADDED, "Аудитория '%s' успешно добавлена.");
 
-        // PublishNewsCommand
         messages.put(LocalizationKey.ENTER_NEWS_TITLE, "Введите заголовок новости: ");
         messages.put(LocalizationKey.ENTER_NEWS_TEXT, "Введите текст новости: ");
         messages.put(LocalizationKey.NEWS_PUBLISHED, "Новость успешно опубликована.");
 
-        // Research commands
         messages.put(LocalizationKey.ENTER_JOURNAL_NAME, "Введите название журнала: ");
         messages.put(LocalizationKey.SUBSCRIBED_TO_JOURNAL, "Вы подписались на журнал '%s'.");
         messages.put(LocalizationKey.ENTER_PAPER_TITLE, "Введите название статьи: ");
@@ -71,7 +66,6 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.CITATION_NOT_FOUND, "Статья не найдена.");
         messages.put(LocalizationKey.TOP_RESEARCHERS_TITLE, "Топ исследователей по H-Index:");
 
-        // Menu items
         messages.put(LocalizationKey.MENU_SUBSCRIBE_JOURNAL, "Подписаться на журнал");
         messages.put(LocalizationKey.MENU_PUBLISH_PAPER, "Опубликовать статью");
         messages.put(LocalizationKey.MENU_MY_PAPERS, "Мои статьи");
@@ -80,6 +74,45 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.MENU_CREATE_COURSE, "Создать курс");
         messages.put(LocalizationKey.MENU_ADD_ROOM, "Добавить аудиторию");
         messages.put(LocalizationKey.MENU_PUBLISH_NEWS, "Опубликовать новость");
+
+        messages.put(LocalizationKey.MENU_APPROVE_REGISTRATION, "Одобрить заявку студента");
+        messages.put(LocalizationKey.MENU_ASSIGN_COURSE, "Назначить курс преподавателю");
+        messages.put(LocalizationKey.MENU_CHANGE_ENROLLMENT, "Изменить статус зачисления");
+        messages.put(LocalizationKey.MENU_CHANGE_REQUEST_STATUS, "Изменить статус запроса");
+        messages.put(LocalizationKey.MENU_CREATE_COURSE_OFFERING, "Создать курсовое предложение");
+        messages.put(LocalizationKey.MENU_CREATE_SEMESTER, "Создать семестр");
+        messages.put(LocalizationKey.MENU_PUT_MARK, "Выставить оценку");
+        messages.put(LocalizationKey.MENU_REGISTER_COURSE, "Записаться на курс");
+        messages.put(LocalizationKey.MENU_REGISTER_OFFERING, "Записаться на курсовое предложение");
+        messages.put(LocalizationKey.MENU_SEND_COMPLAINT, "Отправить жалобу");
+        messages.put(LocalizationKey.MENU_SEND_MESSAGE, "Отправить сообщение");
+        messages.put(LocalizationKey.MENU_VIEW_NEW_REQUESTS, "Просмотреть новые запросы");
+        messages.put(LocalizationKey.MENU_VIEW_TRANSCRIPT, "Просмотреть академическую справку");
+
+        messages.put(LocalizationKey.NO_ENROLLMENTS_FOUND, "Записи на курсы не найдены.");
+        messages.put(LocalizationKey.CHOOSE_STATUS, "Выберите статус:");
+        messages.put(LocalizationKey.ENROLLMENT_APPROVED, "Запись одобрена.");
+        messages.put(LocalizationKey.ENROLLMENT_REJECTED, "Запись отклонена.");
+
+        messages.put(LocalizationKey.MENU_VIEW_MESSAGES, "Просмотреть сообщения");
+        messages.put(LocalizationKey.NO_MESSAGES, "Сообщений нет.");
+        messages.put(LocalizationKey.MESSAGES_SENT_HEADER, "--- Отправленные сообщения ---");
+        messages.put(LocalizationKey.MESSAGES_RECEIVED_HEADER, "--- Полученные сообщения ---");
+        messages.put(LocalizationKey.MESSAGE_FROM, "От: %s");
+        messages.put(LocalizationKey.MESSAGE_TO, "Кому: %s");
+        messages.put(LocalizationKey.MESSAGE_CONTENT_LABEL, "Текст: %s");
+        messages.put(LocalizationKey.MESSAGE_TIME, "Время: %s");
+
+        messages.put(LocalizationKey.MENU_BECOME_RESEARCHER, "Стать исследователем");
+        messages.put(LocalizationKey.BECAME_RESEARCHER, "Вы теперь исследователь! Вам открыты команды публикации статей.");
+        messages.put(LocalizationKey.ALREADY_RESEARCHER, "Вы уже являетесь исследователем.");
+
+        messages.put(LocalizationKey.MENU_SEND_TECH_REQUEST, "Отправить технический запрос");
+        messages.put(LocalizationKey.ENTER_REQUEST_DESCRIPTION, "Введите описание проблемы: ");
+        messages.put(LocalizationKey.REQUEST_SENT, "Технический запрос успешно отправлен.");
+        messages.put(LocalizationKey.NO_REQUESTS_FOUND, "Запросов не найдено.");
+
+        messages.put(LocalizationKey.H_INDEX_LABEL, "H-индекс: %d");
     }
     @Override
     public Language language() {

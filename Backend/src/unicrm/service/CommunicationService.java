@@ -5,10 +5,13 @@ import unicrm.domain.Message;
 import unicrm.domain.Student;
 import unicrm.domain.Teacher;
 import unicrm.domain.UrgencyLevel;
+import unicrm.domain.User;
 import unicrm.repository.ComplaintRepository;
 import unicrm.repository.MessageRepository;
 import unicrm.repository.UserRepository;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class CommunicationService {
@@ -28,8 +31,8 @@ public class CommunicationService {
     public void sendMessage(Employee sender, Employee receiver, String content) {
         Message message = new Message();
         message.setId(UUID.randomUUID().toString());
-        message.setSender(sender);
-        message.setReceiver(receiver);
+        message.setSenderId(sender.getId());
+        message.setReceiverId(receiver.getId());
         message.setContent(content);
         message.setTimestamp(new Date());
 
@@ -39,6 +42,23 @@ public class CommunicationService {
         messageRepo.save(message);
         userRepo.save(sender);
         userRepo.save(receiver);
+    }
+
+    public List<Message> getSentMessages(String userId) {
+        return messageRepo.findAll().stream()
+                .filter(m -> Objects.equals(m.getSenderId(), userId))
+                .toList();
+    }
+
+    public List<Message> getReceivedMessages(String userId) {
+        return messageRepo.findAll().stream()
+                .filter(m -> Objects.equals(m.getReceiverId(), userId))
+                .toList();
+    }
+
+    public String resolveUsername(String userId, UserRepository repo) {
+        User user = repo.findById(userId);
+        return user != null ? user.getUsername() : userId;
     }
 
     public void sendComplaint(Teacher teacher,

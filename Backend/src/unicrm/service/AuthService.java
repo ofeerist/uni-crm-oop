@@ -1,4 +1,5 @@
 package unicrm.service;
+import unicrm.domain.ResearcherDecorator;
 import unicrm.domain.User;
 import unicrm.repository.UserRepository;
 import unicrm.session.UserSession;
@@ -10,7 +11,8 @@ public class AuthService {
     public void login(String username, String password) {
         for (User user : userRepository.findAll()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                UserSession.getInstance().setCurrentUser(user);
+                User sessionUser = user.isResearcher() ? new ResearcherDecorator(user) : user;
+                UserSession.getInstance().setCurrentUser(sessionUser);
                 return;
             }
         }

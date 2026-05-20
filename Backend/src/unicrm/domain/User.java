@@ -9,6 +9,7 @@ public abstract class User implements Comparable<User> {
     private String username;
     private String password;
     private Language preferredLanguage;
+    private boolean isResearcher = false;
     private transient List<UniversityJournal> journalSubscriptions = new ArrayList<>();
     public String getId() {
         return id;
@@ -37,7 +38,7 @@ public abstract class User implements Comparable<User> {
     public String getPassword() {
         return password;
     }
-    // TODO: Change to encrypted password storage
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -46,6 +47,12 @@ public abstract class User implements Comparable<User> {
     }
     public void setPreferredLanguage(Language preferredLanguage) {
         this.preferredLanguage = preferredLanguage;
+    }
+    public boolean isResearcher() {
+        return isResearcher;
+    }
+    public void setResearcher(boolean researcher) {
+        isResearcher = researcher;
     }
     public List<UniversityJournal> getJournalSubscriptions() {
         if (journalSubscriptions == null) {

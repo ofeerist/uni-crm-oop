@@ -22,7 +22,7 @@ public class PutMarkCommand {
         this.userSession = userSession;
     }
     public void execute() {
-        User currentUser = userSession.getCurrentUser();
+        User currentUser = userSession.getEffectiveUser();
         if (currentUser instanceof Teacher teacher) {
             List<User> students = userRepository.findByRole("Student");
             if (!students.isEmpty() && !teacher.getAssignedCourses().isEmpty()) {

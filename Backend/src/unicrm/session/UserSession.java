@@ -1,4 +1,5 @@
 package unicrm.session;
+import unicrm.domain.ResearcherDecorator;
 import unicrm.domain.User;
 public class UserSession {
     private static UserSession instance;
@@ -12,6 +13,13 @@ public class UserSession {
         return instance;
     }
     public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public User getEffectiveUser() {
+        if (currentUser instanceof ResearcherDecorator rd) {
+            return rd.getBaseUser();
+        }
         return currentUser;
     }
     public void setCurrentUser(User user) {

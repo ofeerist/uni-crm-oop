@@ -5,8 +5,8 @@ import java.util.Objects;
 public class Message {
 
     private String id;
-    private Employee sender;
-    private Employee receiver;
+    private String senderId;
+    private String receiverId;
     private String content;
     private Date timestamp;
 
@@ -17,12 +17,12 @@ public class Message {
         return id;
     }
 
-    public Employee getSender() {
-        return sender;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public Employee getReceiver() {
-        return receiver;
+    public String getReceiverId() {
+        return receiverId;
     }
 
     public String getContent() {
@@ -37,12 +37,12 @@ public class Message {
         this.id = id;
     }
 
-    public void setSender(Employee sender) {
-        this.sender = sender;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
-    public void setReceiver(Employee receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
     public void setContent(String content) {
@@ -70,8 +70,8 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "id='" + id + '\'' +
-                ", sender=" + (sender != null ? sender.getUsername() : null) +
-                ", receiver=" + (receiver != null ? receiver.getUsername() : null) +
+                ", senderId='" + senderId + '\'' +
+                ", receiverId='" + receiverId + '\'' +
                 ", content='" + content + '\'' +
                 ", timestamp=" + timestamp +
                 '}';

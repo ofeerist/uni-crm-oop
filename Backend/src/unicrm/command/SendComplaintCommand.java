@@ -25,7 +25,7 @@ public class SendComplaintCommand {
     }
 
     public void execute() {
-        User currentUser = userSession.getCurrentUser();
+        User currentUser = userSession.getEffectiveUser();
 
         if (currentUser instanceof Teacher teacher) {
             List<User> users = userRepo.findByRole("Student");

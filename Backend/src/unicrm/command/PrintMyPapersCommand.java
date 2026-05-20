@@ -1,6 +1,7 @@
 package unicrm.command;
 
 import unicrm.domain.ResearchPaper;
+import unicrm.domain.ResearcherDecorator;
 import unicrm.domain.User;
 import unicrm.localization.LocalizationKey;
 import unicrm.localization.LocalizationService;
@@ -22,12 +23,14 @@ public class PrintMyPapersCommand {
 
     public void execute() {
         User currentUser = userSession.getCurrentUser();
-        if (currentUser == null) {
+        if (!(currentUser instanceof ResearcherDecorator)) {
             System.out.println(localization.get(LocalizationKey.ACCESS_DENIED));
             return;
         }
 
         List<ResearchPaper> papers = researchService.getPapersForUser(currentUser.getUsername());
+        int hIndex = researchService.calculateHIndex(currentUser.getUsername());
+        System.out.println(localization.format(LocalizationKey.H_INDEX_LABEL, hIndex));
 
         if (papers.isEmpty()) {
             System.out.println(localization.get(LocalizationKey.NO_PAPERS_FOUND));

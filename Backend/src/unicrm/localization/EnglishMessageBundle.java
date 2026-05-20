@@ -36,32 +36,27 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.ROLE_TEACHER, "Teacher");
         messages.put(LocalizationKey.ROLE_MANAGER, "Administrator");
 
-        // SendMessageCommand
         messages.put(LocalizationKey.ENTER_RECEIVER_ID, "Enter recipient's username: ");
         messages.put(LocalizationKey.ENTER_MESSAGE_CONTENT, "Enter message text: ");
         messages.put(LocalizationKey.MESSAGE_SENT_SUCCESS, "Message sent successfully.");
         messages.put(LocalizationKey.RECEIVER_NOT_FOUND, "Recipient not found.");
         messages.put(LocalizationKey.ACCESS_DENIED, "Access denied: insufficient permissions.");
 
-        // CreateCourseCommand
         messages.put(LocalizationKey.ENTER_COURSE_CODE, "Enter course code: ");
         messages.put(LocalizationKey.ENTER_COURSE_NAME, "Enter course name: ");
         messages.put(LocalizationKey.ENTER_CREDITS, "Enter number of credits: ");
         messages.put(LocalizationKey.SELECT_CATEGORY, "Select category (MAJOR / MINOR / FREE_ELECTIVE): ");
         messages.put(LocalizationKey.COURSE_CREATED, "Course '%s' created successfully.");
 
-        // AddRoomCommand
         messages.put(LocalizationKey.ENTER_ROOM_NAME, "Enter room name/number: ");
         messages.put(LocalizationKey.ENTER_CAPACITY, "Enter room capacity: ");
         messages.put(LocalizationKey.SELECT_ROOM_TYPE, "Select room type (LECTURE / PRACTICE / LAB): ");
         messages.put(LocalizationKey.ROOM_ADDED, "Room '%s' added successfully.");
 
-        // PublishNewsCommand
         messages.put(LocalizationKey.ENTER_NEWS_TITLE, "Enter news title: ");
         messages.put(LocalizationKey.ENTER_NEWS_TEXT, "Enter news text: ");
         messages.put(LocalizationKey.NEWS_PUBLISHED, "News published successfully.");
 
-        // Research commands
         messages.put(LocalizationKey.ENTER_JOURNAL_NAME, "Enter journal name: ");
         messages.put(LocalizationKey.SUBSCRIBED_TO_JOURNAL, "You have subscribed to journal '%s'.");
         messages.put(LocalizationKey.ENTER_PAPER_TITLE, "Enter paper title: ");
@@ -71,7 +66,6 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.CITATION_NOT_FOUND, "Paper not found.");
         messages.put(LocalizationKey.TOP_RESEARCHERS_TITLE, "Top researchers by H-Index:");
 
-        // Menu items
         messages.put(LocalizationKey.MENU_SUBSCRIBE_JOURNAL, "Subscribe to journal");
         messages.put(LocalizationKey.MENU_PUBLISH_PAPER, "Publish paper");
         messages.put(LocalizationKey.MENU_MY_PAPERS, "My papers");
@@ -80,6 +74,45 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.MENU_CREATE_COURSE, "Create course");
         messages.put(LocalizationKey.MENU_ADD_ROOM, "Add room");
         messages.put(LocalizationKey.MENU_PUBLISH_NEWS, "Publish news");
+
+        messages.put(LocalizationKey.MENU_APPROVE_REGISTRATION, "Approve student registration");
+        messages.put(LocalizationKey.MENU_ASSIGN_COURSE, "Assign course to teacher");
+        messages.put(LocalizationKey.MENU_CHANGE_ENROLLMENT, "Change enrollment status");
+        messages.put(LocalizationKey.MENU_CHANGE_REQUEST_STATUS, "Change request status");
+        messages.put(LocalizationKey.MENU_CREATE_COURSE_OFFERING, "Create course offering");
+        messages.put(LocalizationKey.MENU_CREATE_SEMESTER, "Create semester");
+        messages.put(LocalizationKey.MENU_PUT_MARK, "Put mark");
+        messages.put(LocalizationKey.MENU_REGISTER_COURSE, "Register for course");
+        messages.put(LocalizationKey.MENU_REGISTER_OFFERING, "Register for course offering");
+        messages.put(LocalizationKey.MENU_SEND_COMPLAINT, "Send complaint");
+        messages.put(LocalizationKey.MENU_SEND_MESSAGE, "Send message");
+        messages.put(LocalizationKey.MENU_VIEW_NEW_REQUESTS, "View new requests");
+        messages.put(LocalizationKey.MENU_VIEW_TRANSCRIPT, "View transcript");
+
+        messages.put(LocalizationKey.NO_ENROLLMENTS_FOUND, "No enrollments found.");
+        messages.put(LocalizationKey.CHOOSE_STATUS, "Choose status:");
+        messages.put(LocalizationKey.ENROLLMENT_APPROVED, "Enrollment approved.");
+        messages.put(LocalizationKey.ENROLLMENT_REJECTED, "Enrollment rejected.");
+
+        messages.put(LocalizationKey.MENU_VIEW_MESSAGES, "View messages");
+        messages.put(LocalizationKey.NO_MESSAGES, "No messages.");
+        messages.put(LocalizationKey.MESSAGES_SENT_HEADER, "--- Sent messages ---");
+        messages.put(LocalizationKey.MESSAGES_RECEIVED_HEADER, "--- Received messages ---");
+        messages.put(LocalizationKey.MESSAGE_FROM, "From: %s");
+        messages.put(LocalizationKey.MESSAGE_TO, "To: %s");
+        messages.put(LocalizationKey.MESSAGE_CONTENT_LABEL, "Content: %s");
+        messages.put(LocalizationKey.MESSAGE_TIME, "Time: %s");
+
+        messages.put(LocalizationKey.MENU_BECOME_RESEARCHER, "Become researcher");
+        messages.put(LocalizationKey.BECAME_RESEARCHER, "You are now a researcher! Paper publishing commands are now available.");
+        messages.put(LocalizationKey.ALREADY_RESEARCHER, "You are already a researcher.");
+
+        messages.put(LocalizationKey.MENU_SEND_TECH_REQUEST, "Send tech request");
+        messages.put(LocalizationKey.ENTER_REQUEST_DESCRIPTION, "Enter problem description: ");
+        messages.put(LocalizationKey.REQUEST_SENT, "Tech request sent successfully.");
+        messages.put(LocalizationKey.NO_REQUESTS_FOUND, "No requests found.");
+
+        messages.put(LocalizationKey.H_INDEX_LABEL, "H-Index: %d");
     }
     @Override
     public Language language() {

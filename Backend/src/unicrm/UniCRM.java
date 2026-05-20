@@ -107,7 +107,6 @@ public class UniCRM {
                                     CourseRepository courseRepository, CourseOfferingRepository offeringRepository,
                                     EnrollmentRepository enrollmentRepository, TechRequestRepository techRepo) {
 
-        // -- Services --
         CourseRegistrationService courseRegService = new CourseRegistrationService(userRepository, courseRepository);
         ManagerService managerService = new ManagerService(courseRepository, userRepository);
         EnrollmentService enrollmentService = new EnrollmentService(enrollmentRepository);
@@ -144,6 +143,8 @@ public class UniCRM {
                 new SendComplaintCommand(communicationService, userRepository, userSession);
         SendMessageCommand sendMsgCmd =
                 new SendMessageCommand(communicationService, userRepository, userSession, scanner);
+        ViewMessagesCommand viewMsgsCmd =
+                new ViewMessagesCommand(communicationService, userRepository, userSession);
         ViewNewRequestsCommand viewReqCmd =
                 new ViewNewRequestsCommand(techSupportService, userSession, techRepo);
         ViewTranscriptCommand viewTranscriptCmd =
@@ -164,17 +165,23 @@ public class UniCRM {
                 new GetCitationCommand(researchService, userSession, scanner);
         ViewTopResearcherCommand viewTopResearcherCmd =
                 new ViewTopResearcherCommand(researchService, userSession);
+        BecomeResearcherCommand becomeResearcherCmd =
+                new BecomeResearcherCommand(researchService, userRepository, userSession);
+        SendTechRequestCommand sendTechRequestCmd =
+                new SendTechRequestCommand(techSupportService, userSession, scanner);
 
         while (true) {
             User currentUser = userSession.getCurrentUser();
             if (currentUser == null) {
                 break;
             }
+            User effectiveUser = userSession.getEffectiveUser();
+            boolean isResearcher = currentUser instanceof ResearcherDecorator;
 
             System.out.println();
             System.out.println(localization.get(LocalizationKey.ADMIN_MENU_TITLE));
 
-            if (currentUser instanceof Manager) {
+            if (effectiveUser instanceof Manager) {
                 System.out.println("1.  " + localization.get(LocalizationKey.ADMIN_MENU_ADD_USER));
                 System.out.println("2.  " + localization.get(LocalizationKey.MENU_APPROVE_REGISTRATION));
                 System.out.println("3.  " + localization.get(LocalizationKey.MENU_ASSIGN_COURSE));
@@ -183,39 +190,68 @@ public class UniCRM {
                 System.out.println("6.  " + localization.get(LocalizationKey.MENU_CREATE_SEMESTER));
                 System.out.println("7.  " + localization.get(LocalizationKey.MENU_CREATE_COURSE));
                 System.out.println("8.  " + localization.get(LocalizationKey.MENU_ADD_ROOM));
-                System.out.println("10. " + localization.get(LocalizationKey.MENU_PUBLISH_NEWS));
-                System.out.println("11. " + localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
-                System.out.println("12. " + localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
-                System.out.println("13. " + localization.get(LocalizationKey.MENU_GET_CITATION));
+                System.out.println("9.  " + localization.get(LocalizationKey.MENU_SEND_MESSAGE));
+                System.out.println("10. " + localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
+                System.out.println("11. " + localization.get(LocalizationKey.MENU_PUBLISH_NEWS));
+                System.out.println("12. " + localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
+                System.out.println("13. " + localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
+                System.out.println("14. " + localization.get(LocalizationKey.MENU_GET_CITATION));
+                System.out.println("15. " + localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+                if (isResearcher) {
+                    System.out.println("16. " + localization.get(LocalizationKey.MENU_PUBLISH_PAPER));
+                    System.out.println("17. " + localization.get(LocalizationKey.MENU_MY_PAPERS));
+                } else {
+                    System.out.println("16. " + localization.get(LocalizationKey.MENU_BECOME_RESEARCHER));
+                }
 
-            } else if (currentUser instanceof Student) {
+            } else if (effectiveUser instanceof Student) {
                 System.out.println("1. " + localization.get(LocalizationKey.MENU_REGISTER_COURSE));
                 System.out.println("2. " + localization.get(LocalizationKey.MENU_REGISTER_OFFERING));
                 System.out.println("3. " + localization.get(LocalizationKey.MENU_VIEW_TRANSCRIPT));
                 System.out.println("4. " + localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
                 System.out.println("5. " + localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
                 System.out.println("6. " + localization.get(LocalizationKey.MENU_GET_CITATION));
+                System.out.println("7. " + localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+                if (isResearcher) {
+                    System.out.println("8. " + localization.get(LocalizationKey.MENU_PUBLISH_PAPER));
+                    System.out.println("9. " + localization.get(LocalizationKey.MENU_MY_PAPERS));
+                } else {
+                    System.out.println("8. " + localization.get(LocalizationKey.MENU_BECOME_RESEARCHER));
+                }
 
-            } else if (currentUser instanceof Teacher) {
+            } else if (effectiveUser instanceof Teacher) {
                 System.out.println("1. " + localization.get(LocalizationKey.MENU_PUT_MARK));
                 System.out.println("2. " + localization.get(LocalizationKey.MENU_SEND_COMPLAINT));
-                System.out.println("3. " + localization.get(LocalizationKey.MENU_PUBLISH_PAPER));
-                System.out.println("4. " + localization.get(LocalizationKey.MENU_MY_PAPERS));
-                System.out.println("5. " + localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
-                System.out.println("6. " + localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
-                System.out.println("7. " + localization.get(LocalizationKey.MENU_GET_CITATION));
+                System.out.println("3. " + localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
+                System.out.println("4. " + localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
+                System.out.println("5. " + localization.get(LocalizationKey.MENU_GET_CITATION));
+                System.out.println("9. " + localization.get(LocalizationKey.MENU_SEND_MESSAGE));
+                System.out.println("10. " + localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
+                System.out.println("11. " + localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+                if (isResearcher) {
+                    System.out.println("6. " + localization.get(LocalizationKey.MENU_PUBLISH_PAPER));
+                    System.out.println("7. " + localization.get(LocalizationKey.MENU_MY_PAPERS));
+                } else {
+                    System.out.println("6. " + localization.get(LocalizationKey.MENU_BECOME_RESEARCHER));
+                }
 
-            } else if (currentUser instanceof TechSupportSpecialist) {
+            } else if (effectiveUser instanceof TechSupportSpecialist) {
                 System.out.println("1. " + localization.get(LocalizationKey.MENU_VIEW_NEW_REQUESTS));
                 System.out.println("2. " + localization.get(LocalizationKey.MENU_CHANGE_REQUEST_STATUS));
                 System.out.println("3. " + localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
                 System.out.println("4. " + localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
                 System.out.println("5. " + localization.get(LocalizationKey.MENU_GET_CITATION));
+                System.out.println("9. " + localization.get(LocalizationKey.MENU_SEND_MESSAGE));
+                System.out.println("10. " + localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
+                System.out.println("11. " + localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+                if (isResearcher) {
+                    System.out.println("6. " + localization.get(LocalizationKey.MENU_PUBLISH_PAPER));
+                    System.out.println("7. " + localization.get(LocalizationKey.MENU_MY_PAPERS));
+                } else {
+                    System.out.println("6. " + localization.get(LocalizationKey.MENU_BECOME_RESEARCHER));
+                }
             }
 
-            if (currentUser instanceof Employee) {
-                System.out.println("9. " + localization.get(LocalizationKey.MENU_SEND_MESSAGE));
-            }
             System.out.println("0. " + localization.get(LocalizationKey.ADMIN_MENU_LOGOUT));
             System.out.print(localization.get(LocalizationKey.MENU_CHOICE));
 
@@ -227,7 +263,7 @@ public class UniCRM {
                 break;
             }
 
-            if (currentUser instanceof Manager) {
+            if (effectiveUser instanceof Manager) {
                 switch (choice) {
                     case "1"  -> addUser(scanner, userRepository);
                     case "2"  -> approveRegCmd.execute();
@@ -237,13 +273,21 @@ public class UniCRM {
                     case "6"  -> createSemesterCmd.execute();
                     case "7"  -> createCourseCmd.execute();
                     case "8"  -> addRoomCmd.execute();
-                    case "10" -> publishNewsCmd.execute();
-                    case "11" -> subscribeJournalCmd.execute();
-                    case "12" -> viewTopResearcherCmd.execute();
-                    case "13" -> getCitationCmd.execute();
+                    case "9"  -> sendMsgCmd.execute();
+                    case "10" -> viewMsgsCmd.execute();
+                    case "11" -> publishNewsCmd.execute();
+                    case "12" -> subscribeJournalCmd.execute();
+                    case "13" -> viewTopResearcherCmd.execute();
+                    case "14" -> getCitationCmd.execute();
+                    case "15" -> sendTechRequestCmd.execute();
+                    case "16" -> {
+                        if (isResearcher) publishPaperCmd.execute();
+                        else becomeResearcherCmd.execute();
+                    }
+                    case "17" -> { if (isResearcher) printMyPapersCmd.execute(); }
                 }
 
-            } else if (currentUser instanceof Student) {
+            } else if (effectiveUser instanceof Student) {
                 switch (choice) {
                     case "1" -> regCourseCmd.execute();
                     case "2" -> regOfferingCmd.execute();
@@ -251,31 +295,47 @@ public class UniCRM {
                     case "4" -> subscribeJournalCmd.execute();
                     case "5" -> viewTopResearcherCmd.execute();
                     case "6" -> getCitationCmd.execute();
+                    case "7" -> sendTechRequestCmd.execute();
+                    case "8" -> {
+                        if (isResearcher) publishPaperCmd.execute();
+                        else becomeResearcherCmd.execute();
+                    }
+                    case "9" -> { if (isResearcher) printMyPapersCmd.execute(); }
                 }
 
-            } else if (currentUser instanceof Teacher) {
+            } else if (effectiveUser instanceof Teacher) {
                 switch (choice) {
-                    case "1" -> putMarkCmd.execute();
-                    case "2" -> sendComplaintCmd.execute();
-                    case "3" -> publishPaperCmd.execute();
-                    case "4" -> printMyPapersCmd.execute();
-                    case "5" -> subscribeJournalCmd.execute();
-                    case "6" -> viewTopResearcherCmd.execute();
-                    case "7" -> getCitationCmd.execute();
+                    case "1"  -> putMarkCmd.execute();
+                    case "2"  -> sendComplaintCmd.execute();
+                    case "3"  -> subscribeJournalCmd.execute();
+                    case "4"  -> viewTopResearcherCmd.execute();
+                    case "5"  -> getCitationCmd.execute();
+                    case "6"  -> {
+                        if (isResearcher) publishPaperCmd.execute();
+                        else becomeResearcherCmd.execute();
+                    }
+                    case "7"  -> { if (isResearcher) printMyPapersCmd.execute(); }
+                    case "9"  -> sendMsgCmd.execute();
+                    case "10" -> viewMsgsCmd.execute();
+                    case "11" -> sendTechRequestCmd.execute();
                 }
 
-            } else if (currentUser instanceof TechSupportSpecialist) {
+            } else if (effectiveUser instanceof TechSupportSpecialist) {
                 switch (choice) {
-                    case "1" -> viewReqCmd.execute();
-                    case "2" -> changeReqStatCmd.execute();
-                    case "3" -> subscribeJournalCmd.execute();
-                    case "4" -> viewTopResearcherCmd.execute();
-                    case "5" -> getCitationCmd.execute();
+                    case "1"  -> viewReqCmd.execute();
+                    case "2"  -> changeReqStatCmd.execute();
+                    case "3"  -> subscribeJournalCmd.execute();
+                    case "4"  -> viewTopResearcherCmd.execute();
+                    case "5"  -> getCitationCmd.execute();
+                    case "6"  -> {
+                        if (isResearcher) publishPaperCmd.execute();
+                        else becomeResearcherCmd.execute();
+                    }
+                    case "7"  -> { if (isResearcher) printMyPapersCmd.execute(); }
+                    case "9"  -> sendMsgCmd.execute();
+                    case "10" -> viewMsgsCmd.execute();
+                    case "11" -> sendTechRequestCmd.execute();
                 }
-            }
-
-            if (currentUser instanceof Employee && choice.equals("9")) {
-                sendMsgCmd.execute();
             }
         }
     }

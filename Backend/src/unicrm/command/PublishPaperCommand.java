@@ -1,6 +1,6 @@
 package unicrm.command;
 
-import unicrm.domain.Teacher;
+import unicrm.domain.ResearcherDecorator;
 import unicrm.domain.User;
 import unicrm.localization.LocalizationKey;
 import unicrm.localization.LocalizationService;
@@ -24,7 +24,7 @@ public class PublishPaperCommand {
 
     public void execute() {
         User currentUser = userSession.getCurrentUser();
-        if (!(currentUser instanceof Teacher)) {
+        if (!(currentUser instanceof ResearcherDecorator)) {
             System.out.println(localization.get(LocalizationKey.ACCESS_DENIED));
             return;
         }
