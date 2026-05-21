@@ -103,6 +103,7 @@ package "Domain Layer" {
         -username: String
         -password: String
         -preferredLanguage: Language
+        -isResearcher: boolean
         -journalSubscriptions: List<UniversityJournal>
     }
     enum Language {
@@ -159,6 +160,22 @@ package "Domain Layer" {
     }
     Course *-down- CourseCategory
 
+    class CourseOffering {
+        -id: String
+        -course: Course
+        -semester: AcademicSemester
+        -instructor: Teacher
+        -capacity: int
+        -lessons: List<Lesson>
+    }
+
+    class Enrollment {
+        -student: Student
+        -courseOffering: CourseOffering
+        -status: EnrollmentStatus
+        -grades: MarkData
+    }
+
     class Mark {
         -id: String
         -firstAttestation: double
@@ -199,6 +216,9 @@ CourseRepository o-- Course
 Student "1" -- "N" Mark : "receives"
 Course "1" -- "N" Mark : "has"
 Course "1" -- "N" Lesson : "contains"
+Course "1" -- "N" CourseOffering : "has"
+Enrollment "M" -- "1" Student : "belongs to"
+Enrollment "M" -- "1" CourseOffering : "registers for"
 Teacher "M" -- "N" Course : "assigned to"
 Student "M" -- "N" Course : "registered"
 

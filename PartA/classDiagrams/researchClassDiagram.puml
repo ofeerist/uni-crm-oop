@@ -85,33 +85,24 @@ package "Domain Layer" {
     abstract class User implements JournalSubscriber {
         -id: String
         -username: String
+        -isResearcher: boolean
         -journalSubscriptions: List<UniversityJournal>
     }
 
     class ResearcherDecorator extends User {
         -baseUser: User
-        -hIndex: int
-        -publishedPapers: List<ResearchPaper>
-        -participatingProjects: List<ResearchProject>
     }
     ResearcherDecorator o-- User : "baseUser"
 
     class ResearchPaper {
         -id: String
         -title: String
-        -authors: List<String>
-        -journal: String
-        -pages: int
-        -date: Date
-        -doi: String
+        -paperAbstract: String
+        -authorUsername: String
+        -journalName: String
+        -citedPaperIds: List<String>
         -citations: int
-        -publishedIn: UniversityJournal
-        +getCitation(format: Format): String
     }
-    enum Format {
-        PLAIN_TEXT, BIBTEX
-    }
-    ResearchPaper ..> Format
 
     class UniversityJournal {
         -id: String
@@ -146,7 +137,6 @@ JournalRepository o-- UniversityJournal
 ResearchProjectRepository o-- ResearchProject
 
 ' Domain connections
-ResearcherDecorator "1" -- "N" ResearchPaper : "publishes"
 UniversityJournal "1" -- "N" ResearchPaper : "contains"
 UniversityJournal "M" -- "N" User : "subscribers"
 ResearchProject "M" -- "N" ResearcherDecorator : "participants"
