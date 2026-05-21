@@ -2,8 +2,10 @@ package unicrm.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CourseOffering {
+    private String id;
     private Course course;
     private AcademicSemester semester;
     private Teacher instructor;
@@ -11,10 +13,12 @@ public class CourseOffering {
     private List<Lesson> lessons;
 
     public CourseOffering() {
+        this.id = UUID.randomUUID().toString();
         this.lessons = new ArrayList<>();
     }
 
     public CourseOffering(Course course, AcademicSemester semester, Teacher instructor, int capacity) {
+        this.id = UUID.randomUUID().toString();
         this.course = course;
         this.semester = semester;
         this.instructor = instructor;
@@ -26,6 +30,8 @@ public class CourseOffering {
         this.lessons.add(lesson);
     }
 
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public Course getCourse() { return course; }
     public void setCourse(Course course) { this.course = course; }
     public AcademicSemester getSemester() { return semester; }

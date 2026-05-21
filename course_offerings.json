@@ -1,7 +1,54 @@
 [
   {
+    "id": "5faef555-e53b-430c-9c2e-8d83bbc9d784",
     "course": {
-      "courseId": "MDS3213",
+      "courseId": "2026",
+      "name": "Kazakh",
+      "credits": 3,
+      "category": "MINOR"
+    },
+    "semester": {
+      "season": "FALL",
+      "year": 2026
+    },
+    "instructor": {
+      "averageRating": 0.0,
+      "id": "d4283308-3b42-43cb-a31e-e1ca02c598e6",
+      "username": "tea",
+      "password": "tea",
+      "preferredLanguage": "RU",
+      "isResearcher": false
+    },
+    "capacity": 10,
+    "lessons": [
+      {
+        "id": "bd9de995-1bc3-4e74-b029-4bc022e7d3ca",
+        "room": {
+          "id": "123d6f99-d6d6-49b3-b451-8bc346a52874",
+          "name": "201",
+          "capacity": 20,
+          "type": "LECTURE"
+        },
+        "type": "LECTURE",
+        "timeSlot": "MON 08:00"
+      },
+      {
+        "id": "f6eaaa8a-49f7-4cb8-a4c3-11dfae8875fe",
+        "room": {
+          "id": "4ad300ea-9fb2-4cc7-8801-301ba097587b",
+          "name": "202",
+          "capacity": 20,
+          "type": "PRACTICE"
+        },
+        "type": "PRACTICE",
+        "timeSlot": "TUE 08:00"
+      }
+    ]
+  },
+  {
+    "id": "a00d9b06-c435-4c55-bff2-2458b199f650",
+    "course": {
+      "courseId": "65543",
       "name": "OOP",
       "credits": 6,
       "category": "MAJOR"
@@ -12,35 +59,81 @@
     },
     "instructor": {
       "averageRating": 0.0,
-      "id": "83beb025-80d8-4327-a3b1-0e2591fe9152",
-      "username": "teacher1",
-      "password": "teacher",
-      "preferredLanguage": "EN",
+      "id": "d4283308-3b42-43cb-a31e-e1ca02c598e6",
+      "username": "tea",
+      "password": "tea",
+      "preferredLanguage": "RU",
       "isResearcher": false
     },
-    "capacity": 50,
+    "capacity": 10,
     "lessons": [
       {
-        "id": "e6d7b776-9bfd-430a-934d-e5526dde6d0d",
+        "id": "1c04b68d-c20f-4c3e-8318-69e025b3168e",
         "room": {
-          "id": "f7307ab5-8796-4959-ae2e-d3694d817cac",
+          "id": "123d6f99-d6d6-49b3-b451-8bc346a52874",
           "name": "201",
-          "capacity": 50,
+          "capacity": 20,
           "type": "LECTURE"
         },
         "type": "LECTURE",
-        "timeSlot": "MON 08:00"
+        "timeSlot": "WED 08:00"
       },
       {
-        "id": "607752fd-c598-4a79-a553-6c89b390a579",
+        "id": "7e80e61d-eb13-4620-8de9-125cffebc7f0",
         "room": {
-          "id": "f7307ab5-8796-4959-ae2e-d3694d817cac",
-          "name": "201",
-          "capacity": 50,
-          "type": "LECTURE"
+          "id": "4ad300ea-9fb2-4cc7-8801-301ba097587b",
+          "name": "202",
+          "capacity": 20,
+          "type": "PRACTICE"
         },
         "type": "PRACTICE",
-        "timeSlot": "TUE 08:00"
+        "timeSlot": "THU 08:00"
+      }
+    ]
+  },
+  {
+    "id": "b2869de0-b829-4c4e-9f4b-5d71869231cd",
+    "course": {
+      "courseId": "54324",
+      "name": "BIG COURSE",
+      "credits": 20,
+      "category": "MAJOR"
+    },
+    "semester": {
+      "season": "FALL",
+      "year": 2026
+    },
+    "instructor": {
+      "averageRating": 0.0,
+      "id": "d4283308-3b42-43cb-a31e-e1ca02c598e6",
+      "username": "tea",
+      "password": "tea",
+      "preferredLanguage": "RU",
+      "isResearcher": false
+    },
+    "capacity": 10,
+    "lessons": [
+      {
+        "id": "d173b450-2e3d-4cbb-a10c-4de875ab58ae",
+        "room": {
+          "id": "123d6f99-d6d6-49b3-b451-8bc346a52874",
+          "name": "201",
+          "capacity": 20,
+          "type": "LECTURE"
+        },
+        "type": "LECTURE",
+        "timeSlot": "FRI 08:00"
+      },
+      {
+        "id": "86e91560-3b12-4045-97cd-1b9915304657",
+        "room": {
+          "id": "4ad300ea-9fb2-4cc7-8801-301ba097587b",
+          "name": "202",
+          "capacity": 20,
+          "type": "PRACTICE"
+        },
+        "type": "PRACTICE",
+        "timeSlot": "TUE 10:00"
       }
     ]
   }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CourseOfferingRepository implements IRepository<CourseOffering, String> {
     private List<CourseOffering> offerings = new ArrayList<>();
@@ -28,6 +29,11 @@ public class CourseOfferingRepository implements IRepository<CourseOffering, Str
                 String json = Files.readString(path);
                 CourseOffering[] loaded = gson.fromJson(json, CourseOffering[].class);
                 if (loaded != null) {
+                    for (CourseOffering offering : loaded) {
+                        if (offering.getId() == null) {
+                            offering.setId(UUID.randomUUID().toString());
+                        }
+                    }
                     offerings = new ArrayList<>(Arrays.asList(loaded));
                 }
             }
@@ -47,11 +53,15 @@ public class CourseOfferingRepository implements IRepository<CourseOffering, Str
 
     @Override
     public void save(CourseOffering entity) {
-        if (entity == null || entity.getCourse() == null || entity.getSemester() == null) {
+        if (entity == null) {
             return;
         }
+        
+        if (entity.getId() == null) {
+            entity.setId(UUID.randomUUID().toString());
+        }
 
-        delete(getKey(entity));
+        delete(entity.getId());
         offerings.add(entity);
         saveToFile();
     }
@@ -60,7 +70,7 @@ public class CourseOfferingRepository implements IRepository<CourseOffering, Str
     public CourseOffering findById(String id) {
         return offerings
                 .stream()
-                .filter(offering -> Objects.equals(getKey(offering), id))
+                .filter(offering -> Objects.equals(offering.getId(), id))
                 .findFirst()
                 .orElse(null);
     }
@@ -72,15 +82,6 @@ public class CourseOfferingRepository implements IRepository<CourseOffering, Str
 
     @Override
     public void delete(String id) {
-        offerings.removeIf(offering -> Objects.equals(getKey(offering), id));
-        saveToFile();
-    }
-
-    private String getKey(CourseOffering offering) {
-        return offering.getCourse().getCourseId()
-                + "-"
-                + offering.getSemester().getSeason()
-                + "-"
-                + offering.getSemester().getYear();
+        offerings.removeIf(offering -> Objects.equals(offering.getId(), id));
     }
 }

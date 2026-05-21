@@ -63,6 +63,5 @@ public class CourseRepository implements IRepository<Course, String> {
     @Override
     public void delete(String id) {
         courses.removeIf(course -> Objects.equals(course.getCourseId(), id));
-        saveToFile();
     }
 }

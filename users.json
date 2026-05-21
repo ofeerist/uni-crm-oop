@@ -4,45 +4,37 @@
       "yearOfStudy": 0,
       "currentCredits": 0,
       "failCount": 0,
-      "id": "6fb96131-5c1c-4700-8b49-ac04784a6ee9",
-      "username": "Artyom",
-      "password": "1234",
-      "preferredLanguage": "EN",
+      "id": "c1123800-5b33-46a2-982e-f5e22372a753",
+      "username": "stu",
+      "password": "stu",
+      "preferredLanguage": "RU",
       "isResearcher": false
     }
   ],
   "teachers": [
     {
       "averageRating": 0.0,
-      "id": "83beb025-80d8-4327-a3b1-0e2591fe9152",
-      "username": "teacher1",
-      "password": "teacher",
-      "preferredLanguage": "EN",
+      "id": "d4283308-3b42-43cb-a31e-e1ca02c598e6",
+      "username": "tea",
+      "password": "tea",
+      "preferredLanguage": "RU",
       "isResearcher": false
-    },
-    {
-      "averageRating": 0.0,
-      "id": "a93d5ae0-cdf4-499d-a45b-c4c2148ac89e",
-      "username": "teacher",
-      "password": "teacher",
-      "preferredLanguage": "EN",
-      "isResearcher": true
     }
   ],
   "managers": [
     {
       "type": "OR",
-      "id": "a0a4081c-9286-461e-94dc-f993188d3e4a",
+      "id": "86199416-bb7e-4911-beb7-deda140a83a6",
       "username": "admin",
       "password": "admin",
       "preferredLanguage": "RU",
-      "isResearcher": true
+      "isResearcher": false
     },
     {
       "type": "DEPARTMENT",
-      "id": "d27f28cf-f9f2-4d1e-b154-040da9353980",
-      "username": "Manager",
-      "password": "Manager",
+      "id": "d6d60796-c79d-4b77-a600-8e48994e1b07",
+      "username": "man",
+      "password": "man",
       "preferredLanguage": "RU",
       "isResearcher": false
     }

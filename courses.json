@@ -1,8 +1,20 @@
 [
   {
-    "courseId": "MDS3213",
+    "courseId": "2026",
+    "name": "Kazakh",
+    "credits": 3,
+    "category": "MINOR"
+  },
+  {
+    "courseId": "65543",
     "name": "OOP",
     "credits": 6,
+    "category": "MAJOR"
+  },
+  {
+    "courseId": "54324",
+    "name": "BIG COURSE",
+    "credits": 20,
     "category": "MAJOR"
   }
 ]

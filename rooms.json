@@ -1,8 +1,14 @@
 [
   {
-    "id": "f7307ab5-8796-4959-ae2e-d3694d817cac",
+    "id": "123d6f99-d6d6-49b3-b451-8bc346a52874",
     "name": "201",
-    "capacity": 50,
+    "capacity": 20,
     "type": "LECTURE"
+  },
+  {
+    "id": "4ad300ea-9fb2-4cc7-8801-301ba097587b",
+    "name": "202",
+    "capacity": 20,
+    "type": "PRACTICE"
   }
 ]
