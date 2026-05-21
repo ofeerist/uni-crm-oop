@@ -1,5 +1,7 @@
 package unicrm.command;
+
 import unicrm.domain.Enrollment;
+import unicrm.domain.EnrollmentStatus;
 import unicrm.domain.Manager;
 import unicrm.domain.User;
 import unicrm.localization.LocalizationKey;
@@ -7,8 +9,10 @@ import unicrm.localization.LocalizationService;
 import unicrm.repository.EnrollmentRepository;
 import unicrm.service.EnrollmentService;
 import unicrm.session.UserSession;
+
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ChangeEnrollmentStatusCommand {
 
@@ -36,24 +40,49 @@ public class ChangeEnrollmentStatusCommand {
             System.out.println(localization.get(LocalizationKey.ACCESS_DENIED));
             return;
         }
-        List<Enrollment> enrollments = enrollmentRepository.findAll();
+        List<Enrollment> enrollments = enrollmentRepository.findAll().stream()
+                .filter(e -> e.getStatus() == EnrollmentStatus.PENDING)
+                .toList();
+
         if (enrollments.isEmpty()) {
-            System.out.println(localization.get(LocalizationKey.NO_ENROLLMENTS_FOUND));
+            System.out.println(localization.get(LocalizationKey.NO_PENDING_ENROLLMENTS));
             return;
         }
 
-        Enrollment enrollment = enrollments.getFirst();
-        System.out.println(localization.get(LocalizationKey.CHOOSE_STATUS));
-        System.out.println("1. APPROVED");
-        System.out.println("2. REJECTED");
-        String choice = scanner.nextLine();
+        System.out.println(localization.get(LocalizationKey.SELECT_ENROLLMENT));
+        for (int i = 0; i < enrollments.size(); i++) {
+            Enrollment e = enrollments.get(i);
+            System.out.println(localization.format(LocalizationKey.ENROLLMENT_ITEM, i + 1, e.getStudent().getUsername(), e.getCourseOffering().getCourse().getName()));
+        }
 
-        if (choice.equals("1")) {
+        int choice;
+        try {
+            choice = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println(localization.get(LocalizationKey.INVALID_CHOICE));
+            return;
+        }
+
+        if (choice < 1 || choice > enrollments.size()) {
+            System.out.println(localization.get(LocalizationKey.INVALID_CHOICE));
+            return;
+        }
+
+        Enrollment enrollment = enrollments.get(choice - 1);
+
+        System.out.println(localization.get(LocalizationKey.CHOOSE_STATUS));
+        System.out.println(localization.get(LocalizationKey.STATUS_APPROVED_CHOICE));
+        System.out.println(localization.get(LocalizationKey.STATUS_REJECTED_CHOICE));
+        String statusChoice = scanner.nextLine();
+
+        if (statusChoice.equals("1")) {
             enrollmentService.approveEnrollment(enrollment);
             System.out.println(localization.get(LocalizationKey.ENROLLMENT_APPROVED));
-        } else if (choice.equals("2")) {
+        } else if (statusChoice.equals("2")) {
             enrollmentService.rejectEnrollment(enrollment);
             System.out.println(localization.get(LocalizationKey.ENROLLMENT_REJECTED));
+        } else {
+            System.out.println(localization.get(LocalizationKey.INVALID_CHOICE));
         }
     }
 }

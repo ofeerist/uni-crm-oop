@@ -127,8 +127,6 @@ public class UniCRM {
 
         UserSession userSession = UserSession.getInstance();
 
-        ApproveStudentRegistrationCommand approveRegCmd =
-                new ApproveStudentRegistrationCommand(courseRegService, userSession);
         AssignCourseToTeacherCommand assignCourseCmd =
                 new AssignCourseToTeacherCommand(managerService, userRepository, courseRepository, userSession);
         ChangeEnrollmentStatusCommand changeEnrollCmd =
@@ -196,23 +194,22 @@ public class UniCRM {
 
         Map<String, Runnable> managerCommands = new HashMap<>();
         managerCommands.put("1",  () -> addUser(scanner, userRepository));
-        managerCommands.put("2",  approveRegCmd::execute);
-        managerCommands.put("3",  assignCourseCmd::execute);
-        managerCommands.put("4",  changeEnrollCmd::execute);
-        managerCommands.put("5",  createOfferingCmd::execute);
-        managerCommands.put("6",  createSemesterCmd::execute);
-        managerCommands.put("7",  createCourseCmd::execute);
-        managerCommands.put("8",  addRoomCmd::execute);
-        managerCommands.put("9",  sendMsgCmd::execute);
-        managerCommands.put("10", viewMsgsCmd::execute);
-        managerCommands.put("11", publishNewsCmd::execute);
-        managerCommands.put("12", subscribeJournalCmd::execute);
-        managerCommands.put("13", viewTopResearcherCmd::execute);
-        managerCommands.put("14", getCitationCmd::execute);
-        managerCommands.put("15", sendTechRequestCmd::execute);
-        managerCommands.put("16", researcherOrBecomeCmd);
-        managerCommands.put("17", myPapersIfResearcher);
-        managerCommands.put("18", createJournalCmd::execute);
+        managerCommands.put("2",  assignCourseCmd::execute);
+        managerCommands.put("3",  changeEnrollCmd::execute);
+        managerCommands.put("4",  createOfferingCmd::execute);
+        managerCommands.put("5",  createSemesterCmd::execute);
+        managerCommands.put("6",  createCourseCmd::execute);
+        managerCommands.put("7",  addRoomCmd::execute);
+        managerCommands.put("8",  sendMsgCmd::execute);
+        managerCommands.put("9", viewMsgsCmd::execute);
+        managerCommands.put("10", publishNewsCmd::execute);
+        managerCommands.put("11", subscribeJournalCmd::execute);
+        managerCommands.put("12", viewTopResearcherCmd::execute);
+        managerCommands.put("13", getCitationCmd::execute);
+        managerCommands.put("14", sendTechRequestCmd::execute);
+        managerCommands.put("15", researcherOrBecomeCmd);
+        managerCommands.put("16", myPapersIfResearcher);
+        managerCommands.put("17", createJournalCmd::execute);
         managerCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> studentCommands = new HashMap<>();
@@ -345,23 +342,22 @@ public class UniCRM {
         LinkedHashMap<String, String> menu = new LinkedHashMap<>();
         if (effectiveUser instanceof Manager) {
             menu.put("1",  localization.get(LocalizationKey.ADMIN_MENU_ADD_USER));
-            menu.put("2",  localization.get(LocalizationKey.MENU_APPROVE_REGISTRATION));
-            menu.put("3",  localization.get(LocalizationKey.MENU_ASSIGN_COURSE));
-            menu.put("4",  localization.get(LocalizationKey.MENU_CHANGE_ENROLLMENT));
-            menu.put("5",  localization.get(LocalizationKey.MENU_CREATE_COURSE_OFFERING));
-            menu.put("6",  localization.get(LocalizationKey.MENU_CREATE_SEMESTER));
-            menu.put("7",  localization.get(LocalizationKey.MENU_CREATE_COURSE));
-            menu.put("8",  localization.get(LocalizationKey.MENU_ADD_ROOM));
-            menu.put("9",  localization.get(LocalizationKey.MENU_SEND_MESSAGE));
-            menu.put("10", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
-            menu.put("11", localization.get(LocalizationKey.MENU_PUBLISH_NEWS));
-            menu.put("12", localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
-            menu.put("13", localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
-            menu.put("14", localization.get(LocalizationKey.MENU_GET_CITATION));
-            menu.put("15", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
-            menu.put("16", localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
-            if (isResearcher) menu.put("17", localization.get(LocalizationKey.MENU_MY_PAPERS));
-            menu.put("18", localization.get(LocalizationKey.MENU_CREATE_JOURNAL));
+            menu.put("2",  localization.get(LocalizationKey.MENU_ASSIGN_COURSE));
+            menu.put("3",  localization.get(LocalizationKey.MENU_CHANGE_ENROLLMENT));
+            menu.put("4",  localization.get(LocalizationKey.MENU_CREATE_COURSE_OFFERING));
+            menu.put("5",  localization.get(LocalizationKey.MENU_CREATE_SEMESTER));
+            menu.put("6",  localization.get(LocalizationKey.MENU_CREATE_COURSE));
+            menu.put("7",  localization.get(LocalizationKey.MENU_ADD_ROOM));
+            menu.put("8",  localization.get(LocalizationKey.MENU_SEND_MESSAGE));
+            menu.put("9", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
+            menu.put("10", localization.get(LocalizationKey.MENU_PUBLISH_NEWS));
+            menu.put("11", localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
+            menu.put("12", localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
+            menu.put("13", localization.get(LocalizationKey.MENU_GET_CITATION));
+            menu.put("14", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+            menu.put("15", localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
+            if (isResearcher) menu.put("16", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            menu.put("17", localization.get(LocalizationKey.MENU_CREATE_JOURNAL));
         } else if (effectiveUser instanceof Student) {
             menu.put("1", localization.get(LocalizationKey.MENU_REGISTER_OFFERING));
             menu.put("2", localization.get(LocalizationKey.MENU_VIEW_SCHEDULE));

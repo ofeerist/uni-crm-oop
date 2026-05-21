@@ -91,6 +91,8 @@ public class EnglishMessageBundle implements MessageBundle {
 
         messages.put(LocalizationKey.NO_ENROLLMENTS_FOUND, "No enrollments found.");
         messages.put(LocalizationKey.CHOOSE_STATUS, "Choose status:");
+        messages.put(LocalizationKey.STATUS_APPROVED_CHOICE, "1. Approve");
+        messages.put(LocalizationKey.STATUS_REJECTED_CHOICE, "2. Reject");
         messages.put(LocalizationKey.ENROLLMENT_APPROVED, "Enrollment approved.");
         messages.put(LocalizationKey.ENROLLMENT_REJECTED, "Enrollment rejected.");
 
@@ -165,6 +167,10 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.ENTER_FINAL_EXAM, "Enter final exam score: ");
         messages.put(LocalizationKey.MARK_SAVED, "Mark saved successfully.");
         messages.put(LocalizationKey.NO_ENROLLED_STUDENTS, "No enrolled students for this course.");
+
+        messages.put(LocalizationKey.SELECT_ENROLLMENT, "Select enrollment:");
+        messages.put(LocalizationKey.NO_PENDING_ENROLLMENTS, "No pending enrollments.");
+        messages.put(LocalizationKey.ENROLLMENT_ITEM, "%d. Student: %s, Course: %s");
     }
     @Override
     public Language language() {

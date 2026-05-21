@@ -37,6 +37,14 @@
       "password": "admin",
       "preferredLanguage": "RU",
       "isResearcher": true
+    },
+    {
+      "type": "DEPARTMENT",
+      "id": "d27f28cf-f9f2-4d1e-b154-040da9353980",
+      "username": "Manager",
+      "password": "Manager",
+      "preferredLanguage": "RU",
+      "isResearcher": false
     }
   ]
 }

@@ -91,6 +91,8 @@ public class RussianMessageBundle implements MessageBundle {
 
         messages.put(LocalizationKey.NO_ENROLLMENTS_FOUND, "Записи на курсы не найдены.");
         messages.put(LocalizationKey.CHOOSE_STATUS, "Выберите статус:");
+        messages.put(LocalizationKey.STATUS_APPROVED_CHOICE, "1. Одобрить");
+        messages.put(LocalizationKey.STATUS_REJECTED_CHOICE, "2. Отклонить");
         messages.put(LocalizationKey.ENROLLMENT_APPROVED, "Запись одобрена.");
         messages.put(LocalizationKey.ENROLLMENT_REJECTED, "Запись отклонена.");
 
@@ -165,6 +167,10 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.ENTER_FINAL_EXAM, "Введите оценку за финальный экзамен: ");
         messages.put(LocalizationKey.MARK_SAVED, "Оценка успешно сохранена.");
         messages.put(LocalizationKey.NO_ENROLLED_STUDENTS, "Нет зачисленных студентов на данный курс.");
+
+        messages.put(LocalizationKey.SELECT_ENROLLMENT, "Выберите заявку:");
+        messages.put(LocalizationKey.NO_PENDING_ENROLLMENTS, "Нет заявок в ожидании.");
+        messages.put(LocalizationKey.ENROLLMENT_ITEM, "%d. Студент: %s, Курс: %s");
     }
     @Override
     public Language language() {
