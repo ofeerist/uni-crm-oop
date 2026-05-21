@@ -140,7 +140,7 @@ public class UniCRM {
         CreateSemesterCommand createSemesterCmd =
                 new CreateSemesterCommand(semesterService, userSession, scanner);
         PutMarkCommand putMarkCmd =
-                new PutMarkCommand(academicService, userRepository, userSession);
+                new PutMarkCommand(academicService, offeringRepository, enrollmentRepository, userSession, scanner);
         RegisterForCourseCommand regCourseCmd =
                 new RegisterForCourseCommand(courseRegService, courseRepository, userSession);
         RegisterForOfferingCommand regOfferingCmd =

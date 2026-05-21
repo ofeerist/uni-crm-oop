@@ -159,6 +159,12 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.MENU_VIEW_MY_SCHEDULE, "Моё расписание");
         messages.put(LocalizationKey.NO_COURSES_ASSIGNED, "У вас нет назначенных курсов.");
         messages.put(LocalizationKey.TEACHER_COURSE_ITEM, "%s [%s] — %s %s (вместимость: %d)");
+
+        messages.put(LocalizationKey.ENTER_FIRST_ATTESTATION, "Введите оценку за 1-ю аттестацию: ");
+        messages.put(LocalizationKey.ENTER_SECOND_ATTESTATION, "Введите оценку за 2-ю аттестацию: ");
+        messages.put(LocalizationKey.ENTER_FINAL_EXAM, "Введите оценку за финальный экзамен: ");
+        messages.put(LocalizationKey.MARK_SAVED, "Оценка успешно сохранена.");
+        messages.put(LocalizationKey.NO_ENROLLED_STUDENTS, "Нет зачисленных студентов на данный курс.");
     }
     @Override
     public Language language() {

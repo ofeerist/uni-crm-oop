@@ -159,6 +159,12 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.MENU_VIEW_MY_SCHEDULE, "My schedule");
         messages.put(LocalizationKey.NO_COURSES_ASSIGNED, "You have no assigned courses.");
         messages.put(LocalizationKey.TEACHER_COURSE_ITEM, "%s [%s] — %s %s (capacity: %d)");
+
+        messages.put(LocalizationKey.ENTER_FIRST_ATTESTATION, "Enter 1st attestation score: ");
+        messages.put(LocalizationKey.ENTER_SECOND_ATTESTATION, "Enter 2nd attestation score: ");
+        messages.put(LocalizationKey.ENTER_FINAL_EXAM, "Enter final exam score: ");
+        messages.put(LocalizationKey.MARK_SAVED, "Mark saved successfully.");
+        messages.put(LocalizationKey.NO_ENROLLED_STUDENTS, "No enrolled students for this course.");
     }
     @Override
     public Language language() {
