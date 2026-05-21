@@ -147,6 +147,18 @@ public class EnglishMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.SELECT_PAPER, "Select paper: ");
         messages.put(LocalizationKey.SELECT_JOURNAL, "Enter journal number: ");
         messages.put(LocalizationKey.JOURNAL_SUBSCRIBE_HEADER, "Select a journal to subscribe to:");
+
+        messages.put(LocalizationKey.SELECT_OFFERING_HEADER, "Select course offering:");
+        messages.put(LocalizationKey.NO_OFFERINGS_FOUND, "No course offerings found.");
+        messages.put(LocalizationKey.ENROLLMENT_CREATED_PENDING, "Enrollment request created. Status: PENDING.");
+        messages.put(LocalizationKey.MENU_VIEW_SCHEDULE, "View schedule");
+        messages.put(LocalizationKey.NO_SCHEDULE_FOUND, "No schedule found.");
+        messages.put(LocalizationKey.OFFERING_SCHEDULE_HEADER, "--- %s | %s | %s ---");
+
+        messages.put(LocalizationKey.MENU_VIEW_MY_COURSES, "My courses");
+        messages.put(LocalizationKey.MENU_VIEW_MY_SCHEDULE, "My schedule");
+        messages.put(LocalizationKey.NO_COURSES_ASSIGNED, "You have no assigned courses.");
+        messages.put(LocalizationKey.TEACHER_COURSE_ITEM, "%s [%s] — %s %s (capacity: %d)");
     }
     @Override
     public Language language() {

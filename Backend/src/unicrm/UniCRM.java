@@ -144,7 +144,9 @@ public class UniCRM {
         RegisterForCourseCommand regCourseCmd =
                 new RegisterForCourseCommand(courseRegService, courseRepository, userSession);
         RegisterForOfferingCommand regOfferingCmd =
-                new RegisterForOfferingCommand(enrollmentService, offeringRepository, userSession);
+                new RegisterForOfferingCommand(enrollmentService, offeringRepository, userSession, scanner);
+        ViewScheduleCommand viewScheduleCmd =
+                new ViewScheduleCommand(enrollmentRepository, userSession);
         SendComplaintCommand sendComplaintCmd =
                 new SendComplaintCommand(communicationService, userRepository, userSession, scanner);
         SendMessageCommand sendMsgCmd =
@@ -179,6 +181,10 @@ public class UniCRM {
                 new SendTechRequestCommand(techSupportService, userSession, scanner);
         ChangeLanguageCommand changeLangCmd =
                 new ChangeLanguageCommand(userRepository, userSession, scanner);
+        ViewTeacherCoursesCommand viewTeacherCoursesCmd =
+                new ViewTeacherCoursesCommand(offeringRepository, userSession);
+        ViewTeacherScheduleCommand viewTeacherScheduleCmd =
+                new ViewTeacherScheduleCommand(offeringRepository, userSession);
 
         Runnable researcherOrBecomeCmd = () -> {
             if (userSession.getCurrentUser() instanceof ResearcherDecorator) publishPaperCmd.execute();
@@ -210,8 +216,8 @@ public class UniCRM {
         managerCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> studentCommands = new HashMap<>();
-        studentCommands.put("1",  regCourseCmd::execute);
-        studentCommands.put("2",  regOfferingCmd::execute);
+        studentCommands.put("1",  regOfferingCmd::execute);
+        studentCommands.put("2",  viewScheduleCmd::execute);
         studentCommands.put("3",  viewTranscriptCmd::execute);
         studentCommands.put("4",  subscribeJournalCmd::execute);
         studentCommands.put("5",  viewTopResearcherCmd::execute);
@@ -224,14 +230,16 @@ public class UniCRM {
         Map<String, Runnable> teacherCommands = new HashMap<>();
         teacherCommands.put("1",  putMarkCmd::execute);
         teacherCommands.put("2",  sendComplaintCmd::execute);
-        teacherCommands.put("3",  subscribeJournalCmd::execute);
-        teacherCommands.put("4",  viewTopResearcherCmd::execute);
-        teacherCommands.put("5",  getCitationCmd::execute);
-        teacherCommands.put("6",  researcherOrBecomeCmd);
-        teacherCommands.put("7",  myPapersIfResearcher);
-        teacherCommands.put("9",  sendMsgCmd::execute);
-        teacherCommands.put("10", viewMsgsCmd::execute);
-        teacherCommands.put("11", sendTechRequestCmd::execute);
+        teacherCommands.put("3",  viewTeacherCoursesCmd::execute);
+        teacherCommands.put("4",  viewTeacherScheduleCmd::execute);
+        teacherCommands.put("5",  subscribeJournalCmd::execute);
+        teacherCommands.put("6",  viewTopResearcherCmd::execute);
+        teacherCommands.put("7",  getCitationCmd::execute);
+        teacherCommands.put("8",  researcherOrBecomeCmd);
+        teacherCommands.put("9",  myPapersIfResearcher);
+        teacherCommands.put("10", sendMsgCmd::execute);
+        teacherCommands.put("11", viewMsgsCmd::execute);
+        teacherCommands.put("12", sendTechRequestCmd::execute);
         teacherCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> techCommands = new HashMap<>();
@@ -355,8 +363,8 @@ public class UniCRM {
             if (isResearcher) menu.put("17", localization.get(LocalizationKey.MENU_MY_PAPERS));
             menu.put("18", localization.get(LocalizationKey.MENU_CREATE_JOURNAL));
         } else if (effectiveUser instanceof Student) {
-            menu.put("1", localization.get(LocalizationKey.MENU_REGISTER_COURSE));
-            menu.put("2", localization.get(LocalizationKey.MENU_REGISTER_OFFERING));
+            menu.put("1", localization.get(LocalizationKey.MENU_REGISTER_OFFERING));
+            menu.put("2", localization.get(LocalizationKey.MENU_VIEW_SCHEDULE));
             menu.put("3", localization.get(LocalizationKey.MENU_VIEW_TRANSCRIPT));
             menu.put("4", localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
             menu.put("5", localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
@@ -367,14 +375,16 @@ public class UniCRM {
         } else if (effectiveUser instanceof Teacher) {
             menu.put("1",  localization.get(LocalizationKey.MENU_PUT_MARK));
             menu.put("2",  localization.get(LocalizationKey.MENU_SEND_COMPLAINT));
-            menu.put("3",  localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
-            menu.put("4",  localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
-            menu.put("5",  localization.get(LocalizationKey.MENU_GET_CITATION));
-            menu.put("6",  localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
-            if (isResearcher) menu.put("7", localization.get(LocalizationKey.MENU_MY_PAPERS));
-            menu.put("9",  localization.get(LocalizationKey.MENU_SEND_MESSAGE));
-            menu.put("10", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
-            menu.put("11", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+            menu.put("3",  localization.get(LocalizationKey.MENU_VIEW_MY_COURSES));
+            menu.put("4",  localization.get(LocalizationKey.MENU_VIEW_MY_SCHEDULE));
+            menu.put("5",  localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
+            menu.put("6",  localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
+            menu.put("7",  localization.get(LocalizationKey.MENU_GET_CITATION));
+            menu.put("8",  localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
+            if (isResearcher) menu.put("9", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            menu.put("10", localization.get(LocalizationKey.MENU_SEND_MESSAGE));
+            menu.put("11", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
+            menu.put("12", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
         } else if (effectiveUser instanceof TechSupportSpecialist) {
             menu.put("1",  localization.get(LocalizationKey.MENU_VIEW_NEW_REQUESTS));
             menu.put("2",  localization.get(LocalizationKey.MENU_CHANGE_REQUEST_STATUS));

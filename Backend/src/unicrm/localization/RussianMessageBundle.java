@@ -147,6 +147,18 @@ public class RussianMessageBundle implements MessageBundle {
         messages.put(LocalizationKey.SELECT_PAPER, "Выберите статью: ");
         messages.put(LocalizationKey.SELECT_JOURNAL, "Введите номер журнала: ");
         messages.put(LocalizationKey.JOURNAL_SUBSCRIBE_HEADER, "Выберите журнал для подписки:");
+
+        messages.put(LocalizationKey.SELECT_OFFERING_HEADER, "Выберите курсовое предложение:");
+        messages.put(LocalizationKey.NO_OFFERINGS_FOUND, "Курсовые предложения не найдены.");
+        messages.put(LocalizationKey.ENROLLMENT_CREATED_PENDING, "Заявка на зачисление создана. Статус: ОЖИДАНИЕ.");
+        messages.put(LocalizationKey.MENU_VIEW_SCHEDULE, "Просмотреть расписание");
+        messages.put(LocalizationKey.NO_SCHEDULE_FOUND, "Расписание не найдено.");
+        messages.put(LocalizationKey.OFFERING_SCHEDULE_HEADER, "--- %s | %s | %s ---");
+
+        messages.put(LocalizationKey.MENU_VIEW_MY_COURSES, "Мои курсы");
+        messages.put(LocalizationKey.MENU_VIEW_MY_SCHEDULE, "Моё расписание");
+        messages.put(LocalizationKey.NO_COURSES_ASSIGNED, "У вас нет назначенных курсов.");
+        messages.put(LocalizationKey.TEACHER_COURSE_ITEM, "%s [%s] — %s %s (вместимость: %d)");
     }
     @Override
     public Language language() {
