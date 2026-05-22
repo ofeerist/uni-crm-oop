@@ -56,7 +56,6 @@ public class CreateCourseOfferingCommand {
             return;
         }
 
-        // Select Course
         List<Course> courses = courseRepository.findAll();
         if (courses.isEmpty()) {
             System.out.println(localization.get(LocalizationKey.NO_COURSES_FOUND));
@@ -75,7 +74,6 @@ public class CreateCourseOfferingCommand {
         }
         Course course = courses.get(courseIdx);
 
-        // Select Teacher
         List<User> teachers = userRepository.findByRole("Teacher");
         if (teachers.isEmpty()) {
             System.out.println(localization.get(LocalizationKey.NO_TEACHERS_FOUND));
@@ -93,7 +91,6 @@ public class CreateCourseOfferingCommand {
         }
         Teacher teacher = (Teacher) teachers.get(teacherIdx);
 
-        // Select Semester
         System.out.print(localization.get(LocalizationKey.ENTER_SEMESTER_SEASON));
         String seasonInput = scanner.nextLine().trim().toUpperCase();
         Season season;
@@ -129,7 +126,6 @@ public class CreateCourseOfferingCommand {
             return;
         }
 
-        // Create offering and generate schedule
         CourseOffering offering = offeringService.createOffering(course, semester, teacher, capacity);
         boolean scheduled = scheduleService.generateSchedule(offering);
 
@@ -140,7 +136,6 @@ public class CreateCourseOfferingCommand {
         offeringService.save(offering);
         System.out.println(localization.get(LocalizationKey.OFFERING_CREATED));
 
-        // Print generated schedule
         List<Lesson> lessons = offering.getLessons();
         if (!lessons.isEmpty()) {
             System.out.println(localization.get(LocalizationKey.SCHEDULE_HEADER));

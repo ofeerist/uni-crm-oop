@@ -39,12 +39,6 @@ public class ScheduleService {
         this.roomRepo = roomRepo;
     }
 
-    /**
-     * Generates one LECTURE and one PRACTICE lesson for the given offering.
-     * Slots and rooms are chosen to avoid conflicts with existing offerings.
-     *
-     * @return true if at least one lesson was scheduled
-     */
     public boolean generateSchedule(CourseOffering offering) {
         List<Room> rooms = roomRepo.findAll();
         if (rooms.isEmpty()) return false;
@@ -52,7 +46,6 @@ public class ScheduleService {
         List<CourseOffering> allOfferings = offeringRepo.findAll();
         Set<String> teacherBusy = getTeacherBusySlots(offering.getInstructor(), allOfferings);
 
-        // LECTURE
         Room lectureRoom = findRoom(rooms, RoomType.LECTURE, offering.getCapacity());
         String lectureSlot = findFreeSlot(LECTURE_SLOTS, teacherBusy, lectureRoom, allOfferings);
         if (lectureSlot != null && lectureRoom != null) {
@@ -60,7 +53,6 @@ public class ScheduleService {
             teacherBusy.add(lectureSlot);
         }
 
-        // PRACTICE (smaller group — half capacity)
         int practiceCapacity = Math.max(1, offering.getCapacity() / 2);
         Room practiceRoom = findPracticeRoom(rooms, practiceCapacity);
         String practiceSlot = findFreeSlot(PRACTICE_SLOTS, teacherBusy, practiceRoom, allOfferings);

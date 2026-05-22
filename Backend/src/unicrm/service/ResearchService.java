@@ -20,8 +20,6 @@ public class ResearchService {
         this.journalRepository = journalRepository;
     }
 
-    // ── Journals ─────────────────────────────────────────────────────────────
-
     public UniversityJournal createJournal(String name) {
         UniversityJournal journal = new UniversityJournal(name);
         journalRepository.save(journal);
@@ -35,8 +33,6 @@ public class ResearchService {
     public boolean journalExists(String name) {
         return journalRepository.existsByName(name);
     }
-
-    // ── Papers ────────────────────────────────────────────────────────────────
 
     public ResearcherDecorator becomeResearcher(User user, UserRepository userRepository) {
         user.setResearcher(true);
