@@ -123,6 +123,7 @@ public class UniCRM {
                 new MessageRepository(), new ComplaintRepository(), userRepository);
         JournalRepository journalRepository = new JournalRepository();
         ResearchService researchService = new ResearchService(new ResearchPaperRepository(), journalRepository);
+        ResearchProjectRepository researchProjectRepository = new ResearchProjectRepository();
         NewsService newsService = new NewsService(new NewsRepository());
 
         UserSession userSession = UserSession.getInstance();
@@ -183,13 +184,21 @@ public class UniCRM {
                 new ViewTeacherCoursesCommand(offeringRepository, userSession);
         ViewTeacherScheduleCommand viewTeacherScheduleCmd =
                 new ViewTeacherScheduleCommand(offeringRepository, userSession);
-
+        CreateResearchProjectCommand createResearchProjectCmd =
+                new CreateResearchProjectCommand(researchProjectRepository, scanner);
+        JoinResearchProjectCommand joinResearchProjectCmd =
+                new JoinResearchProjectCommand(researchProjectRepository, userSession, scanner);
         Runnable researcherOrBecomeCmd = () -> {
-            if (userSession.getCurrentUser() instanceof ResearcherDecorator) publishPaperCmd.execute();
-            else becomeResearcherCmd.execute();
+            if (userSession.getCurrentUser() instanceof ResearcherDecorator) {
+                publishPaperCmd.execute();
+            } else {
+                becomeResearcherCmd.execute();
+            }
         };
         Runnable myPapersIfResearcher = () -> {
-            if (userSession.getCurrentUser() instanceof ResearcherDecorator) printMyPapersCmd.execute();
+            if (userSession.getCurrentUser() instanceof ResearcherDecorator) {
+                printMyPapersCmd.execute();
+            }
         };
 
         Map<String, Runnable> managerCommands = new HashMap<>();
@@ -201,7 +210,7 @@ public class UniCRM {
         managerCommands.put("6",  createCourseCmd::execute);
         managerCommands.put("7",  addRoomCmd::execute);
         managerCommands.put("8",  sendMsgCmd::execute);
-        managerCommands.put("9", viewMsgsCmd::execute);
+        managerCommands.put("9",  viewMsgsCmd::execute);
         managerCommands.put("10", publishNewsCmd::execute);
         managerCommands.put("11", subscribeJournalCmd::execute);
         managerCommands.put("12", viewTopResearcherCmd::execute);
@@ -210,6 +219,8 @@ public class UniCRM {
         managerCommands.put("15", researcherOrBecomeCmd);
         managerCommands.put("16", myPapersIfResearcher);
         managerCommands.put("17", createJournalCmd::execute);
+        managerCommands.put("18", createResearchProjectCmd::execute);
+        managerCommands.put("19", joinResearchProjectCmd::execute);
         managerCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> studentCommands = new HashMap<>();
@@ -222,6 +233,7 @@ public class UniCRM {
         studentCommands.put("7",  sendTechRequestCmd::execute);
         studentCommands.put("8",  researcherOrBecomeCmd);
         studentCommands.put("9",  myPapersIfResearcher);
+        studentCommands.put("10", joinResearchProjectCmd::execute);
         studentCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> teacherCommands = new HashMap<>();
@@ -237,6 +249,7 @@ public class UniCRM {
         teacherCommands.put("10", sendMsgCmd::execute);
         teacherCommands.put("11", viewMsgsCmd::execute);
         teacherCommands.put("12", sendTechRequestCmd::execute);
+        teacherCommands.put("13", joinResearchProjectCmd::execute);
         teacherCommands.put("20", changeLangCmd::execute);
 
         Map<String, Runnable> techCommands = new HashMap<>();
@@ -247,6 +260,7 @@ public class UniCRM {
         techCommands.put("5",  getCitationCmd::execute);
         techCommands.put("6",  researcherOrBecomeCmd);
         techCommands.put("7",  myPapersIfResearcher);
+        techCommands.put("8",  joinResearchProjectCmd::execute);
         techCommands.put("9",  sendMsgCmd::execute);
         techCommands.put("10", viewMsgsCmd::execute);
         techCommands.put("11", sendTechRequestCmd::execute);
@@ -276,14 +290,23 @@ public class UniCRM {
             }
 
             Map<String, Runnable> activeCommands = null;
-            if (effectiveUser instanceof Manager) activeCommands = managerCommands;
-            else if (effectiveUser instanceof Student) activeCommands = studentCommands;
-            else if (effectiveUser instanceof Teacher) activeCommands = teacherCommands;
-            else if (effectiveUser instanceof TechSupportSpecialist) activeCommands = techCommands;
+
+            if (effectiveUser instanceof Manager) {
+                activeCommands = managerCommands;
+            } else if (effectiveUser instanceof Student) {
+                activeCommands = studentCommands;
+            } else if (effectiveUser instanceof Teacher) {
+                activeCommands = teacherCommands;
+            } else if (effectiveUser instanceof TechSupportSpecialist) {
+                activeCommands = techCommands;
+            }
 
             if (activeCommands != null) {
                 Runnable cmd = activeCommands.get(choice);
-                if (cmd != null) cmd.run();
+
+                if (cmd != null) {
+                    cmd.run();
+                }
             }
         }
     }
@@ -349,25 +372,38 @@ public class UniCRM {
             menu.put("6",  localization.get(LocalizationKey.MENU_CREATE_COURSE));
             menu.put("7",  localization.get(LocalizationKey.MENU_ADD_ROOM));
             menu.put("8",  localization.get(LocalizationKey.MENU_SEND_MESSAGE));
-            menu.put("9", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
+            menu.put("9",  localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
             menu.put("10", localization.get(LocalizationKey.MENU_PUBLISH_NEWS));
             menu.put("11", localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
             menu.put("12", localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
             menu.put("13", localization.get(LocalizationKey.MENU_GET_CITATION));
             menu.put("14", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
             menu.put("15", localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
-            if (isResearcher) menu.put("16", localization.get(LocalizationKey.MENU_MY_PAPERS));
+
+            if (isResearcher) {
+                menu.put("16", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            }
+
             menu.put("17", localization.get(LocalizationKey.MENU_CREATE_JOURNAL));
+            menu.put("18", "Create research project");
+            menu.put("19", "Join research project");
+
         } else if (effectiveUser instanceof Student) {
-            menu.put("1", localization.get(LocalizationKey.MENU_REGISTER_OFFERING));
-            menu.put("2", localization.get(LocalizationKey.MENU_VIEW_SCHEDULE));
-            menu.put("3", localization.get(LocalizationKey.MENU_VIEW_TRANSCRIPT));
-            menu.put("4", localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
-            menu.put("5", localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
-            menu.put("6", localization.get(LocalizationKey.MENU_GET_CITATION));
-            menu.put("7", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
-            menu.put("8", localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
-            if (isResearcher) menu.put("9", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            menu.put("1",  localization.get(LocalizationKey.MENU_REGISTER_OFFERING));
+            menu.put("2",  localization.get(LocalizationKey.MENU_VIEW_SCHEDULE));
+            menu.put("3",  localization.get(LocalizationKey.MENU_VIEW_TRANSCRIPT));
+            menu.put("4",  localization.get(LocalizationKey.MENU_SUBSCRIBE_JOURNAL));
+            menu.put("5",  localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
+            menu.put("6",  localization.get(LocalizationKey.MENU_GET_CITATION));
+            menu.put("7",  localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+            menu.put("8",  localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
+
+            if (isResearcher) {
+                menu.put("9", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            }
+
+            menu.put("10", "Join research project");
+
         } else if (effectiveUser instanceof Teacher) {
             menu.put("1",  localization.get(LocalizationKey.MENU_PUT_MARK));
             menu.put("2",  localization.get(LocalizationKey.MENU_SEND_COMPLAINT));
@@ -377,10 +413,16 @@ public class UniCRM {
             menu.put("6",  localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
             menu.put("7",  localization.get(LocalizationKey.MENU_GET_CITATION));
             menu.put("8",  localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
-            if (isResearcher) menu.put("9", localization.get(LocalizationKey.MENU_MY_PAPERS));
+
+            if (isResearcher) {
+                menu.put("9", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            }
+
             menu.put("10", localization.get(LocalizationKey.MENU_SEND_MESSAGE));
             menu.put("11", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
             menu.put("12", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
+            menu.put("13", "Join research project");
+
         } else if (effectiveUser instanceof TechSupportSpecialist) {
             menu.put("1",  localization.get(LocalizationKey.MENU_VIEW_NEW_REQUESTS));
             menu.put("2",  localization.get(LocalizationKey.MENU_CHANGE_REQUEST_STATUS));
@@ -388,11 +430,17 @@ public class UniCRM {
             menu.put("4",  localization.get(LocalizationKey.MENU_TOP_RESEARCHERS));
             menu.put("5",  localization.get(LocalizationKey.MENU_GET_CITATION));
             menu.put("6",  localization.get(isResearcher ? LocalizationKey.MENU_PUBLISH_PAPER : LocalizationKey.MENU_BECOME_RESEARCHER));
-            if (isResearcher) menu.put("7", localization.get(LocalizationKey.MENU_MY_PAPERS));
+
+            if (isResearcher) {
+                menu.put("7", localization.get(LocalizationKey.MENU_MY_PAPERS));
+            }
+
+            menu.put("8",  "Join research project");
             menu.put("9",  localization.get(LocalizationKey.MENU_SEND_MESSAGE));
             menu.put("10", localization.get(LocalizationKey.MENU_VIEW_MESSAGES));
             menu.put("11", localization.get(LocalizationKey.MENU_SEND_TECH_REQUEST));
         }
+
         menu.put("20", localization.get(LocalizationKey.MENU_CHANGE_LANGUAGE));
         return menu;
     }

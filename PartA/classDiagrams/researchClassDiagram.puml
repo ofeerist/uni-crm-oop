@@ -17,82 +17,112 @@ package "Command Layer" {
         -userSession: UserSession
         +execute(): void
     }
+
     class PrintMyPapersCommand {
         -researchService: ResearchService
         -userSession: UserSession
         +execute(): void
     }
+
     class SubscribeToJournalCommand {
-        -notificationService: NotificationService
+        -journalRepository: JournalRepository
+        -userRepository: UserRepository
         -userSession: UserSession
         +execute(): void
     }
+
     class GetCitationCommand {
+        -researchService: ResearchService
         -userSession: UserSession
         +execute(): void
     }
+
     class ViewTopResearcherCommand {
         -researchService: ResearchService
         -userSession: UserSession
+        +execute(): void
+    }
+
+    class CreateJournalCommand {
+        -researchService: ResearchService
+        -userSession: UserSession
+        +execute(): void
+    }
+
+    class BecomeResearcherCommand {
+        -researchService: ResearchService
+        -userRepository: UserRepository
+        -userSession: UserSession
+        +execute(): void
+    }
+
+    class CreateResearchProjectCommand {
+        -researchProjectRepository: ResearchProjectRepository
+        -scanner: Scanner
+        +execute(): void
+    }
+
+    class JoinResearchProjectCommand {
+        -researchProjectRepository: ResearchProjectRepository
+        -userSession: UserSession
+        -scanner: Scanner
         +execute(): void
     }
 }
 
 package "Service Layer" {
     class ResearchService {
-        -userRepo: UserRepository
-        -projectRepo: ResearchProjectRepository
+        -paperRepo: ResearchPaperRepository
+        -journalRepo: JournalRepository
         +becomeResearcher(user: User): ResearcherDecorator
         +publishPaper(author: ResearcherDecorator, paper: ResearchPaper): void
-        +calculateHIndex(researcher: ResearcherDecorator): void
+        +calculateHIndex(researcher: ResearcherDecorator): int
         +printPapersSorted(researcher: ResearcherDecorator, c: Comparator<ResearchPaper>): void
         +getTopCitedResearcher(): ResearcherDecorator
-    }
-    class NotificationService {
-        -journalRepo: JournalRepository
-        -userRepo: UserRepository
-        +subscribe(user: User, journal: UniversityJournal): void
-        +notifySubscribers(journal: UniversityJournal, paper: ResearchPaper): void
     }
 }
 
 package "Repository Layer" {
     class UserRepository {
-        -users: List<User>
-        -fileName: String = "users.dat"
+        -fileName: String = "users.json"
         +save(entity: User): void
         +findAll(): List<User>
+        +findByRole(role: String): List<User>
     }
+
     class JournalRepository {
-        -journals: List<UniversityJournal>
-        -fileName: String = "journals.dat"
+        -fileName: String = "journals.json"
         +save(entity: UniversityJournal): void
+        +findAll(): List<UniversityJournal>
         +findById(id: String): UniversityJournal
     }
+
+    class ResearchPaperRepository {
+        -fileName: String = "research_papers.json"
+        +save(entity: ResearchPaper): void
+        +findAll(): List<ResearchPaper>
+    }
+
     class ResearchProjectRepository {
-        -projects: List<ResearchProject>
-        -fileName: String = "projects.dat"
-        +save(entity: ResearchProject): void
-        +findById(id: String): ResearchProject
+        -fileName: String = "research_projects.json"
+        +addProject(project: ResearchProject): void
+        +saveAll(projects: List<ResearchProject>): void
+        +findAll(): List<ResearchProject>
     }
 }
 
 package "Domain Layer" {
-    interface JournalSubscriber {
-        +update(): void
-    }
-
-    abstract class User implements JournalSubscriber {
+    abstract class User {
         -id: String
         -username: String
+        -password: String
+        -preferredLanguage: Language
         -isResearcher: boolean
-        -journalSubscriptions: List<UniversityJournal>
     }
 
     class ResearcherDecorator extends User {
         -baseUser: User
     }
-    ResearcherDecorator o-- User : "baseUser"
 
     class ResearchPaper {
         -id: String
@@ -102,6 +132,7 @@ package "Domain Layer" {
         -journalName: String
         -citedPaperIds: List<String>
         -citations: int
+        +getCitation(format: Format): String
     }
 
     class UniversityJournal {
@@ -114,31 +145,46 @@ package "Domain Layer" {
     class ResearchProject {
         -id: String
         -topic: String
-        -participants: List<ResearcherDecorator>
-        -publishedPapers: List<ResearchPaper>
+        -participantIds: List<String>
+        -paperIds: List<String>
+        +addParticipant(userId: String): void
+        +addPaper(paperId: String): void
+    }
+
+    class NotResearcherException {
+        +NotResearcherException(message: String)
     }
 }
 
-' Command to Service
+ResearcherDecorator o-- User : baseUser
+
 PublishPaperCommand o-- ResearchService
-PublishPaperCommand o-- UserSession
-SubscribeToJournalCommand o-- NotificationService
-SubscribeToJournalCommand o-- UserSession
+PrintMyPapersCommand o-- ResearchService
+GetCitationCommand o-- ResearchService
+ViewTopResearcherCommand o-- ResearchService
+CreateJournalCommand o-- ResearchService
+BecomeResearcherCommand o-- ResearchService
 
-' Service to Repo
-ResearchService o-- UserRepository
-ResearchService o-- ResearchProjectRepository
-NotificationService o-- JournalRepository
-NotificationService o-- UserRepository
+SubscribeToJournalCommand o-- JournalRepository
+SubscribeToJournalCommand o-- UserRepository
 
-' Repo to Domain
+CreateResearchProjectCommand o-- ResearchProjectRepository
+JoinResearchProjectCommand o-- ResearchProjectRepository
+JoinResearchProjectCommand o-- UserSession
+
+ResearchService o-- ResearchPaperRepository
+ResearchService o-- JournalRepository
+
 UserRepository o-- User
 JournalRepository o-- UniversityJournal
+ResearchPaperRepository o-- ResearchPaper
 ResearchProjectRepository o-- ResearchProject
 
-' Domain connections
-UniversityJournal "1" -- "N" ResearchPaper : "contains"
-UniversityJournal "M" -- "N" User : "subscribers"
-ResearchProject "M" -- "N" ResearcherDecorator : "participants"
+UniversityJournal "1" -- "N" ResearchPaper : contains
+UniversityJournal "M" -- "N" User : subscribers
+ResearchProject "1" -- "N" User : participantIds
+ResearchProject "1" -- "N" ResearchPaper : paperIds
+
+JoinResearchProjectCommand ..> NotResearcherException : throws
 
 @enduml
